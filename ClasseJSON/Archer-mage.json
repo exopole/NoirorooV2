@@ -1,0 +1,11 @@
+{
+"Name":"Archer-mage"
+"Perception":"15;10;10;10;15;0;5;10"
+"Brute":"3;0;2;2;-1;3"
+"Competence":"7,75;8,75;9,100;10,100;11,100;12,100;13,100;14,100;15,150;16,200;25,200;19,200;24,200;23,200;22,200;17,200;18,200"
+"Description":"L'archer mage a subit un enseignement d'école pour canaliser ses pouvoirs magiques. En générale la formation dure entre 2 et 4 ans. Elle peut se faire dans des écoles de mage où l'enseignement est accompagné d'une réflexion conséquente sur l'utilisation, les conséquences et la théorie de la magie (implique donc un sens moral plus réfléchi). L'enseignement peut aussi se faire dans des écoles militaires (par exemple l'empire de Ceylin, l'armée des peuples libre de Mantalivia etc.) où l'implication morale n'est pas forcément très développée.
+
+Les archer-mages sont des guerriers peu robustes utilisant leur arc et leurs flèches comme catalyseurs afin de lancer leur sortilèges. Ils peuvent être de bon éclaireur, un soutiens conséquent dans une bataille et sont assez adaptables. Leur défaut principal est d'avoir une faiblesse physique conséquente (résistance, vie et force).
+
+Les race privilégiant l'archer-mage sont en général les races dextres (les elfes, les drows, les demi-elfe, les demi-drow, avariel) ou les races possédant des écoles de magies ou une structure militaire conséquente (humain, drows, elfes, avariels, avemains). Il arrive que des ronsos suivent cet enseignement pour leur sens de la magie développé et leur agilité mais cela implique une coupe quotidienne des griffes…"
+}

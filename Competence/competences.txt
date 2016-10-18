@@ -1,0 +1,26 @@
+Liberte de mouvement dans les sables;Accorde 10 de deplacement bonus  l armande et l empche d tre entrave dans les sables;Passif;Magique;0;0
+Griffes naturelles;L armande a des armes naturelles infligeant 4 de <deg></deg>ts bonus mais conferant  l armande un malus de 30 en precision et en habilete pour la manipulation des objets;Passif;Non-magique;0;0
+Libre esquive des sables;-10 aux jets d esquive dans le sable;Passive;Non-magique;0;0
+Resistance accrue;+1 de resistance par <n></n>iveau;Amelioration de stats;Non-magique;5;0
+Force accrue;+1 de force par niveau;Amelioration de stats;Non-magique;5;0
+Furtivite accrue de l armande;+10 en furtivite;Amelioration de stats;Non-magique;5;0
+Base inebranlable;L armande qui utilise cette competence enfonce ses pattes arrieres dans le sol, gagne 10 de resistance tant qu elle reste immobile et -50 aux jets de resistance au chute ainsi que -20 aux jets de parade;Actif;Non-magique;0;1
+Premier secours;Permet d apporter les premiers secours (bandages, garrots ect);Aptitude;Non-magique;0;0
+Dexterite accrue;Augmente de 1 point la dexterite;Amelioration de stats;Non-magique;5;0
+Esprit accrue;Augmente de 1 point l esprit;Amelioration de stats;Magique;5;0
+Fleche perforante;Enchante une fleche qui reduit l armure touche de 2+0,5/N points de resistance pendant 1D6 min;Actif;Magique;5;0
+Precision accrue;Augmente de 10 points la precision;Amelioration de stats;Non-magique;0;0
+Rechargement d arbalete rapide;Permet de supprimer le tour de rechargement de l arbalete;Passif;Non-magique;0;0
+Tir longue portee;"Permet d atteindre une cible visible situe  250metres, variable selon l armement";Passif;Magique;0;0
+Lecture de la magie;permet de lire les ecritures magique. Necessaire  l'utilisation de parchemin;Passif; ?;0;0
+Tir  bout portant;Permet de tirer sur une cible  moins de 5 metres, ajoutant 5 au degats;Passif;Magique;0;0
+Fleche de feu;Invoque une fleche elementaire qui Inflige 15+2/N dommages magique de l element choisi sur une cible (portee: 20 metres)) (choix de l element  lacquisition du sort.;Actif;Magique;5;0
+Fleche eblouissante;"Enchante une fleche qui projette une lumiere eblouissante au contact sur un rayon de 10m, -10 en precision, Resistance intelligence -20";Actif;Magique;5;0
+Couverture;L'archer-mage peut s interposer  1(+1/N) attaque(s) par tour ciblant un allie  moins de 3m;Passif;Non-magique;0;0
+Fleche d eau;Invoque une fleche elementaire qui Inflige 15+2/N dommages magique de l element choisi sur une cible (portee: 20 metres)) (choix de l element  lacquisition du sort.;Actif;Magique;5;0
+Fleche de foudre;Invoque une fleche elementaire qui Inflige 15+2/N dommages magique de l element choisi sur une cible (portee: 20 metres)) (choix de l element  lacquisition du sort.;Actif;Magique;5;0
+Fleche vegetale;Invoque une fleche elementaire qui Inflige 15+2/N dommages magique de l element choisi sur une cible (portee: 20 metres)) (choix de l element  lacquisition du sort.;Actif;Magique;5;0
+Fleche d air;Invoque une fleche elementaire qui Inflige 15+2/N dommages magique de l element choisi sur une cible (portee: 20 metres)) (choix de l element  lacquisition du sort.;Actif;Magique;5;0
+Fleche de tenebres;Invoque une fleche elementaire qui Inflige 15+2/N dommages magique de l element choisi sur une cible (portee: 20 metres)) (choix de l element  lacquisition du sort.;Actif;Magique;5;0
+Fleche de lumiere;Invoque une fleche elementaire qui Inflige 15+2/N dommages magique de l element choisi sur une cible (portee: 20 metres)) (choix de l element  lacquisition du sort.;Actif;Magique;5;0
+Fleche de glace;Invoque une fleche elementaire qui Inflige 15+2/N dommages magique de l element choisi sur une cible (portee: 20 metres)) (choix de l element  lacquisition du sort.;Actif;Magique;5;0

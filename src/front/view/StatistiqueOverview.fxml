@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="613.0" prefWidth="678.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="front.view.StatistiqueOverviewController">
+   <children>
+      <HBox prefHeight="89.0" prefWidth="678.0">
+         <children>
+            <Label fx:id="type" text="Label">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <padding>
+                  <Insets right="50.0" />
+               </padding>
+            </Label>
+            <ChoiceBox fx:id="cbox" prefWidth="150.0" />
+         </children>
+      </HBox>
+      <Label prefHeight="38.0" prefWidth="161.0" text="Statistique Brute">
+         <padding>
+            <Insets bottom="20.0" left="25.0" />
+         </padding>
+      </Label>
+      <GridPane>
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Dexterite" />
+            <Label fx:id="dexterite" text="Label" GridPane.columnIndex="1" />
+            <Label text="Esprit" GridPane.rowIndex="1" />
+            <Label text="Force" GridPane.rowIndex="2" />
+            <Label text="Rapidité" GridPane.rowIndex="3" />
+            <Label text="Résistance" GridPane.rowIndex="4" />
+            <Label text="Vie" GridPane.rowIndex="5" />
+            <Label fx:id="deplacementLabel" text="Déplacement" GridPane.rowIndex="6" />
+            <Label fx:id="esprit" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="force" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="rapidite" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="resistance" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label fx:id="vie" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label fx:id="deplacement" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+         </children>
+         <padding>
+            <Insets bottom="25.0" left="50.0" />
+         </padding>
+      </GridPane>
+      <Label text="Statistique de perception">
+         <padding>
+            <Insets bottom="20.0" left="25.0" />
+         </padding>
+      </Label>
+      <GridPane>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Label text="Chance" />
+            <Label fx:id="chance" text="Label" GridPane.columnIndex="1" />
+            <Label text="Charisme" GridPane.rowIndex="1" />
+            <Label text="Endurance" GridPane.rowIndex="2" />
+            <Label text="Esquive" GridPane.rowIndex="3" />
+            <Label text="Furtivité" GridPane.rowIndex="4" />
+            <Label text="Habilité" GridPane.rowIndex="5" />
+            <Label text="Intelligence" GridPane.rowIndex="6" />
+            <Label text="Précision" GridPane.rowIndex="7" />
+            <Label fx:id="charisme" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="endurance" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="esquive" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="furtivite" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label fx:id="habilite" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label fx:id="intelligence" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label fx:id="precision" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="50.0" />
+         </padding>
+      </GridPane>
+      <HBox prefHeight="104.0" prefWidth="632.0" spacing="50.0">
+         <children>
+            <VBox prefHeight="100.0" prefWidth="203.0" spacing="20.0">
+               <children>
+                  <Label fx:id="bestClasseLabel" text="Classe conseillé " />
+                  <Label fx:id="lvlPlayerLabel" prefHeight="22.0" prefWidth="185.0" text="Niveau du joueur conseillé" />
+               </children>
+            </VBox>
+            <VBox spacing="23.0">
+               <children>
+                  <Label fx:id="bestClasse" text="Label" />
+                  <Label fx:id="lvlPlayer" text="Label" />
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets left="25.0" />
+         </padding>
+      </HBox>
+   </children>
+</VBox>
