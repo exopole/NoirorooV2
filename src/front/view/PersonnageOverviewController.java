@@ -5,6 +5,10 @@
  */
 package front.view;
 
+import informations.Race;
+import informations.Classe;
+import informations.Competence;
+import informations.Personnage;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -16,7 +20,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
-import informations.*;
 import java.util.Vector;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;

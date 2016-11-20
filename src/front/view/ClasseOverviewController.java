@@ -10,7 +10,9 @@ import informations.Competence;
 import informations.Classe;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Vector;
 import javafx.beans.value.ChangeListener;
@@ -81,10 +83,9 @@ public class ClasseOverviewController implements Initializable {
 
     private Main main;
 
-    private Vector<Classe> classes = new Vector<Classe>();
-    private Vector<Competence> competences;
-    private ObservableList<String> raceName;
-   
+    private Map<String, Classe> classes;
+    private Map<String, Competence> competences;
+    private ObservableList<String> classeName;
 
     // race et classe choisie
     int classeCurrent = 0;
@@ -118,10 +119,18 @@ public class ClasseOverviewController implements Initializable {
 
         List list = new ArrayList();
 
-        Vector<Vector<String>> competenceClasse = classe.getCompetences();
+       Map<String, Integer> competenceClasse = classe.getCompetences();
+        for (Map.Entry<String, Integer> entry : competenceClasse.entrySet()) {
+            String key = entry.getKey();
+            Integer value = entry.getValue();
+            list.add(new Competence(competences.get(key), value));
+            
+        }
+        /*
         for (Vector<String> comp : competenceClasse) {
             list.add(new Competence(competences.get(Integer.parseInt(comp.get(0))), Integer.parseInt(comp.get(0))));
         }
+*/
 
         compList = FXCollections.observableArrayList(list);
         tableCompetence.setItems(compList);
@@ -149,20 +158,14 @@ public class ClasseOverviewController implements Initializable {
     }
 
     private void initWithClasse() {
-        List<String> list = new ArrayList<>();
-
         classes = main.getClasses();
-
-        for (Classe classe : classes) {
-            list.add(classe.getName());
-        }
-        raceName = FXCollections.observableList(list);
-
+        List<String> list = new ArrayList<>(classes.keySet());
+        classeName = FXCollections.observableList(list);
     }
 
     private void initCbox() {
 
-        cbox.getItems().addAll(raceName);
+        cbox.getItems().addAll(classeName);
         cbox.getSelectionModel().select(classeCurrent);
         cbox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -170,8 +173,8 @@ public class ClasseOverviewController implements Initializable {
                 Classe classe = classes.get(newValue.intValue());
                 showClasse(classe);
                 classeCurrent = newValue.intValue();
-                if (main.getLastStep() == 4){
-                    main.setLastStep(main.getLastStep() -1);
+                if (main.getLastStep() == 4) {
+                    main.setLastStep(main.getLastStep() - 1);
                     main.setSceneShow(main.getPanClasse());
                 }
             }
@@ -182,9 +185,13 @@ public class ClasseOverviewController implements Initializable {
         this.main = main;
         initWithClasse();
         initCbox();
-        showClasse(classes.get(classeCurrent));
-        competences = main.getCompetences();
-        setCompClasse(classes.get(classeCurrent));
+        if (classes.size() > 0) {
+            showClasse(classes.get(classeCurrent));
+            competences = main.getCompetences();
+            setCompClasse(classes.get(classeCurrent));
+        }
+        else
+            System.out.println("front.view.ClasseOverviewController.setMainApp() => pas de classes initialisé pour le moment");
     }
 
 //    public void setMainApp(Main main, int raceCurrent) {
@@ -200,8 +207,8 @@ public class ClasseOverviewController implements Initializable {
     public int getClasseCurrent() {
         return classeCurrent;
     }
-    
-    public Classe getClasse(){
+
+    public Classe getClasse() {
         return classes.get(classeCurrent);
     }
 

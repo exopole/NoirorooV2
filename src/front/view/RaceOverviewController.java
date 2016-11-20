@@ -18,6 +18,7 @@ import javafx.scene.control.Label;
 import informations.Race;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -92,8 +93,8 @@ public class RaceOverviewController implements Initializable {
 
     private Main main;
 
-    private Vector<Race> races = new Vector<Race>();
-    private Vector<Competence> competences;
+    private Map<String, Race> races;
+    private Map<String, Competence> competences;
     private ObservableList<String> raceName;
 
     // race et classe choisie
@@ -129,9 +130,11 @@ public class RaceOverviewController implements Initializable {
 
         List list = new ArrayList();
 
-        Vector<Vector<String>> competenceRace = race.getCompetences();
-        for (Vector<String> comp : competenceRace) {
-            list.add(new Competence(competences.get(Integer.parseInt(comp.get(0))), Integer.parseInt(comp.get(0))));
+        Map<String, Integer> competenceRace = race.getCompetences();
+        for (Map.Entry<String, Integer> entry : competenceRace.entrySet()) {
+            String key = entry.getKey();
+            Integer value = entry.getValue();
+            list.add(new Competence(competences.get(key),value));
         }
 
         compList = FXCollections.observableArrayList(list);
@@ -164,13 +167,9 @@ public class RaceOverviewController implements Initializable {
     }
 
     private void initWithRace() {
-        List<String> list = new ArrayList<>();
 
         races = main.getRaces();
-
-        for (Race race : races) {
-            list.add(race.getName());
-        }
+        List<String> list = new ArrayList<>(races.keySet());
         raceName = FXCollections.observableList(list);
 
     }
@@ -185,8 +184,8 @@ public class RaceOverviewController implements Initializable {
                 Race race = races.get(newValue.intValue());
                 showRace(race);
                 raceCurrent = newValue.intValue();
-                if (main.getLastStep() == 4){
-                    main.setLastStep(main.getLastStep() -1);
+                if (main.getLastStep() == 4) {
+                    main.setLastStep(main.getLastStep() - 1);
                     main.setSceneShow(main.getPanRace());
                 }
             }
@@ -197,9 +196,13 @@ public class RaceOverviewController implements Initializable {
         this.main = main;
         initWithRace();
         initCbox();
-        showRace(races.get(raceCurrent));
-        competences = main.getCompetences();
-        setCompRace(races.get(raceCurrent));
+        if (races.size() > 0) {
+            showRace(races.get(raceCurrent));
+            competences = main.getCompetences();
+            setCompRace(races.get(raceCurrent));
+        }
+        else
+            System.out.println("front.view.RaceOverviewController.setMainApp() => pas de races initialisé pour le moment");
     }
 
 //    public void setMainApp(Main main, int raceCurrent) {
@@ -215,8 +218,8 @@ public class RaceOverviewController implements Initializable {
     public int getRaceCurrent() {
         return raceCurrent;
     }
-    
-    public Race getRace(){
+
+    public Race getRace() {
         return races.get(raceCurrent);
     }
 

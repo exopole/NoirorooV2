@@ -1,8 +1,9 @@
 package informations;
 
+import statistiques.StatistiqueBrutePersonnage;
+import statistiques.StatistiquePerception;
 import java.util.Vector;
 
-import statistiques.*;
 
 public class Personnage {
 

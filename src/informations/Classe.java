@@ -1,6 +1,9 @@
 package informations;
 
+import parsing.ParsingString;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.Vector;
 
 import org.json.simple.JSONObject;
@@ -8,7 +11,7 @@ import org.json.simple.parser.JSONParser;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import parsing.*;
+import org.json.simple.parser.ParseException;
 import statistiques.StatistiqueBruteClasse;
 import statistiques.StatistiqueBruteRace;
 import statistiques.StatistiquePerception;
@@ -50,7 +53,7 @@ public class Classe {
      *
      * @see BruteClasse
      */
-    private Vector<Vector<String>> competences;
+    private Map<String, Integer> competences;
 
     private Boolean compute = false;
 
@@ -72,7 +75,7 @@ public class Classe {
             name = (String) jsonObject.get("Name");
             statPerception = new StatistiquePerception((String) jsonObject.get("Perception"));
             statBrute = new StatistiqueBruteClasse((String) jsonObject.get("Brute"));
-            competences = ParsingString.split2time((String) jsonObject.get("Competence"), ";", ",");
+            initCompetence((JSONObject) jsonObject.get("Competence"));
             description = (String) jsonObject.get("Description");
 
         } catch (Exception e) {
@@ -80,6 +83,21 @@ public class Classe {
         }
 
     }
+
+    public void initCompetence(JSONObject jsonObj) throws ParseException {
+        JSONParser parser = new JSONParser();
+        Object obj = parser.parse(jsonObj.toString());
+        String name = (String) jsonObj.get("name");
+        Integer exp = (Integer) jsonObj.get("exp");
+        competences.put(name, exp);
+
+    }
+
+    // Competences
+    public void remoceCompetenceWithName(String name) {
+        competences.remove(name);
+    }
+
 
     /*
 	 * retourne le nom de la classe
@@ -117,7 +135,7 @@ public class Classe {
      *
      * @return Vector of vector de string
      */
-    public Vector<Vector<String>> getCompetences() {
+    public Map<String, Integer> getCompetences() {
         return competences;
     }
 
@@ -126,39 +144,9 @@ public class Classe {
      *
      * @return Vector of String
      */
-    public Vector<String> getAllNameCompetences() {
-        Vector<String> newVector = new Vector<String>();
-        for (int i = 0; i < competences.size(); i++) {
-            newVector.add(competences.get(i).get(0));
-        }
+    public ArrayList<String> getAllNameCompetences() {
 
-        return newVector;
-    }
-
-    /**
-     * Retourne la liste des points experiences necessaire pour chaques
-     * competences
-     *
-     * @return vector of double
-     */
-    public Vector<Double> getAllXP() {
-        Vector<Double> newVector = new Vector<Double>();
-        for (int i = 0; i < competences.size(); i++) {
-            newVector.add(Double.parseDouble(competences.get(i).get(1)));
-        }
-
-        return newVector;
-    }
-
-    /**
-     * Retourne la liste des competences et le nombre de points d'experiences
-     * associe
-     *
-     * @param i
-     * @return Vector of String
-     */
-    public Vector<String> getCompetenceAndXpByNumber(int i) {
-        return competences.get(i);
+        return new ArrayList<>(competences.keySet());
     }
 
     public void compute() {

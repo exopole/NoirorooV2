@@ -1,10 +1,17 @@
 package statistiques;
 
+import statistiquesPerception.Habilite;
+import statistiquesPerception.Chance;
+import statistiquesPerception.Charisme;
+import statistiquesPerception.Precision;
+import statistiquesPerception.Endurance;
+import statistiquesPerception.Intelligence;
+import statistiquesPerception.Furtivite;
+import statistiquesPerception.Esquive;
 import java.util.Vector;
 
 import parsing.ParsingString;
 
-import statistiquesPerception.*;
 
 public class StatistiquePerception {
 	/**

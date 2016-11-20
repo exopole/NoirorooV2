@@ -1,42 +1,44 @@
 package informations;
+
+import parsing.ParsingString;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Vector;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
-import parsing.*;
 import statistiques.StatistiqueBruteClasse;
 import statistiques.StatistiqueBruteRace;
 import statistiques.StatistiquePerception;
 
 public class Race {
-	Vector<String> fileContenant;
-	private String name;
-	private String description;
-	// vecteur regroupant toute les statistique de perception : Precision, Chance, Esquive, Habilite, Inteligence, Furtivite, Charisme
-	private StatistiquePerception statPerception;
-	// Vecteur regroupant toutes les statistiques Brute : Vie, Force, Rapidite, Dexterite, Resistance, Esprit, Deplacement
-	private StatistiqueBruteRace statBrute;
-	// Vecteur regroupant toutes les competences possibles avec le nombre de point d'exp besoin
-	private Vector<Vector<String>> competences;
 
-	private String apparence;
-	// classe conseille par le maitre de jeu avec cette classe
-	private String bestClass;
-	// niveau de joueur conseille (ex : experimente)
-	private String access;
-	
-	private Boolean compute = false;
+    Vector<String> fileContenant;
+    private String name;
+    private String description;
+    // vecteur regroupant toute les statistique de perception : Precision, Chance, Esquive, Habilite, Inteligence, Furtivite, Charisme
+    private StatistiquePerception statPerception;
+    // Vecteur regroupant toutes les statistiques Brute : Vie, Force, Rapidite, Dexterite, Resistance, Esprit, Deplacement
+    private StatistiqueBruteRace statBrute;
+    // Vecteur regroupant toutes les competences possibles avec le nombre de point d'exp besoin
+    private Map<String, Integer> competences;
 
-	
+    private String apparence;
+    // classe conseille par le maitre de jeu avec cette classe
+    private String bestClass;
+    // niveau de joueur conseille (ex : experimente)
+    private String access;
 
-	/*
+    private Boolean compute = false;
+
+    /*
 	public Race(String nameFile) {
 		Vector<String> fileContenant = ParsingFile.readFile(nameFile);
 		name = fileContenant.get(0);
@@ -49,87 +51,100 @@ public class Race {
 		access = fileContenant.get(7);
 	}
 
-	*/
-	
-	public Race(String nameFile) {
-		
-		JSONParser parser = new JSONParser();
+     */
+    public Race(String nameFile) {
 
-    	try {
-    		 
+        JSONParser parser = new JSONParser();
+
+        try {
+
             Object obj = parser.parse(new FileReader(nameFile));
- 
-            JSONObject jsonObject = (JSONObject) obj;
-    		name = (String) jsonObject.get("Name");
-    		statPerception = new StatistiquePerception((String) jsonObject.get("Perception"));	
-    		statBrute = new StatistiqueBruteRace((String) jsonObject.get("Brute"));
-    		competences =ParsingString.split2time((String) jsonObject.get("Competence"), ";", ",");
-    		description = (String) jsonObject.get("Description");
-    		apparence = (String) jsonObject.get("Description physique");
-    		bestClass = (String) jsonObject.get("Classe conseille");
-    		access = (String) jsonObject.get("Niveau de joueur");
 
- 
+            JSONObject jsonObject = (JSONObject) obj;
+            name = (String) jsonObject.get("Name");
+            statPerception = new StatistiquePerception((String) jsonObject.get("Perception"));
+            statBrute = new StatistiqueBruteRace((String) jsonObject.get("Brute"));
+            initCompetence((JSONObject) jsonObject.get("Competence"));
+            description = (String) jsonObject.get("Description");
+            apparence = (String) jsonObject.get("Description physique");
+            bestClass = (String) jsonObject.get("Classe conseille");
+            access = (String) jsonObject.get("Niveau de joueur");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-		
-	}
-	/////////////  getter //////////
-	public String getName() {
-		return name;
-	}
 
-	public String getDescription() {
-		return description;
-	}
+    }
 
+    public void initCompetence(JSONObject jsonObj) throws ParseException {
+        JSONParser parser = new JSONParser();
+        Object obj = parser.parse(jsonObj.toString());
+        String name = (String) jsonObj.get("name");
+        Integer exp = (Integer) jsonObj.get("exp");
+        competences.put(name, exp);
 
-	/**
-	 * @return the statPerception
-	 */
-	public StatistiquePerception getStatPerception() {
-		return statPerception;
-	}
+    }
 
+    /////////////  getter //////////
+    public String getName() {
+        return name;
+    }
 
-	/**
-	 * @return the statBrute
-	 */
-	public StatistiqueBruteRace getStatBrute() {
-		return statBrute;
-	}
+    public String getDescription() {
+        return description;
+    }
 
+    /**
+     * @return the statPerception
+     */
+    public StatistiquePerception getStatPerception() {
+        return statPerception;
+    }
 
-	// getter pour les competences
-	public Vector<Vector<String>> getCompetences() {
-		return competences;
-	}
+    /**
+     * @return the statBrute
+     */
+    public StatistiqueBruteRace getStatBrute() {
+        return statBrute;
+    }
 
-	// getter pour les notes du maitre de jeu
-	public String getAccess() {
-		return access;
-	}
-	
-	public String getApparence() {
-		return apparence;
-	}
-	
-	public String getBestClass() {
-		return bestClass;
-	}
-	
-	public void compute() {
-		if (compute == false)
-		{
-			statBrute.compute();
-			statPerception.compute();
-			compute = true;
-		}
-	}
-	
-	
-	
-	////////////// parsing des fichiers ///////////////
-	
+    // getter pour les competences
+    public Map<String, Integer> getCompetences() {
+        return competences;
+    }
+
+    // getter pour les notes du maitre de jeu
+    public String getAccess() {
+        return access;
+    }
+
+    public String getApparence() {
+        return apparence;
+    }
+
+    public String getBestClass() {
+        return bestClass;
+    }
+
+    // Competences
+    public void remoceCompetenceWithName(String name) {
+        competences.remove(name);
+    }
+
+    public void addCompetence(String name, String identifiant) {
+        Vector<String> comp = new Vector<>();
+        comp.add(name);
+        comp.add(identifiant);
+
+    }
+
+    public void compute() {
+        if (compute == false) {
+            statBrute.compute();
+            statPerception.compute();
+            compute = true;
+        }
+    }
+
+    ////////////// parsing des fichiers ///////////////
 }
