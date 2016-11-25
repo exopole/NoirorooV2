@@ -1,0 +1,21 @@
+{
+	"competences":[
+		"0":{
+	"nom":"exemple",
+	"description":"exemple de description",
+	"type":"type",
+	"nature":"passif",
+	"lvlmax":"10",
+	"tempsIncantation":"0"
+	},
+	"1":{
+	"nom":"exemple1",
+	"description":"exemple 1 de description",
+	"type":"type 1",
+	"nature":"passif 1",
+	"lvlmax":"10",
+	"tempsIncantation":"0"	
+	}
+	]
+}
+

@@ -1,0 +1,71 @@
+{
+	"name":"model",
+	"brute":{
+		"vie": {
+			"value":2,
+			"de":"3D10"
+		},
+	    "force" : {
+			"value":3,
+			"de":"3D6"
+		},
+	 	"rapidite": {
+			"value":0,
+			"de":"3D6"
+		},
+	 	"dexterite": {
+			"value":0,
+			"de":"3D6"
+		},
+	 	"resistance": {
+			"value":0,
+			"de":"1D6"
+		},
+	 	"esprit": {
+			"value":0,
+			"de":"1D4"
+		},
+	 	"deplacement": {
+			"value":3,
+		}
+	},
+	"perception":{
+		"precision": {
+			"value":15,
+			"de":null
+		},
+	    "chance" : {
+			"value":10,
+			"de":null
+		},
+	 	"esquive": {
+			"value":10,
+			"de":null
+		},
+	 	"habilite": {
+			"value":10,
+			"de":null
+		},
+	 	"intelligence": {
+			"value":15,
+			"de":null
+		},
+	 	"endurance": {
+			"value":0,
+			"de":null
+		},
+		"Furtivite":{
+			"value" :5,
+			"de" : null
+		},
+		"charisme" : {
+			"value" :10,
+			"de" : null
+		}
+	},
+	"Competence": {
+		"competence 1":10, 
+		"competence 2" :50
+	},
+	"Description":"Description de la classe"
+}
