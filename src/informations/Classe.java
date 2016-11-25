@@ -3,6 +3,7 @@ package informations;
 import parsing.ParsingString;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
@@ -85,11 +86,11 @@ public class Classe {
     }
 
     public void initCompetence(JSONObject jsonObj) throws ParseException {
-        JSONParser parser = new JSONParser();
-        Object obj = parser.parse(jsonObj.toString());
-        String name = (String) jsonObj.get("name");
-        Integer exp = (Integer) jsonObj.get("exp");
-        competences.put(name, exp);
+        for (Iterator iterator = jsonObj.keySet().iterator(); iterator.hasNext();) {
+            String key = (String) iterator.next();
+            competences.put(key, (Integer) jsonObj.get(key));
+        }
+
 
     }
 
@@ -147,6 +148,29 @@ public class Classe {
     public ArrayList<String> getAllNameCompetences() {
 
         return new ArrayList<>(competences.keySet());
+    }
+    
+    
+    public JSONObject getJSONCompetence(){
+        JSONObject result = new JSONObject();
+
+        for (Map.Entry<String, Integer> entry : competences.entrySet()) {
+            String key = entry.getKey();
+            Integer value = entry.getValue();
+            result.put(key, value);
+        }
+        
+        return result;
+    }
+
+    public JSONObject getJSONObject() {
+        JSONObject result = new JSONObject();
+        result.put("Name", name);
+        result.put("Brute", statBrute.getJsonObject());
+        result.put("Perception", statPerception.getJsonObject());
+        result.put("Competence", getJSONCompetence());
+        result.put("Description", this.description);
+        return result;
     }
 
     public void compute() {

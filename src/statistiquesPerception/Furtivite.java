@@ -4,6 +4,7 @@
 package statistiquesPerception;
 
 import java.util.Vector;
+import org.json.simple.JSONObject;
 
 import statistiques.StatistiqueDE;
 import statistiques.StatistiqueInterface;
@@ -26,6 +27,10 @@ public class Furtivite extends StatistiqueDE implements StatistiqueInterface {
 	}
 	
 	public Furtivite(Integer value) {
+		// TODO Auto-generated constructor stub
+		super(value);
+	}
+	public Furtivite(JSONObject value) {
 		// TODO Auto-generated constructor stub
 		super(value);
 	}

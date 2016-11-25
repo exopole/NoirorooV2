@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
+
 <GridPane hgap="50.0" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="front.view.adminView.ClasseAdminOverviewController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -76,27 +77,33 @@
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                      <children>
                         <Spinner fx:id="spinnerDexValue" />
-                     </children></HBox>
+                     </children>
+                  </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
                         <Spinner fx:id="spinnerEspritValue" />
-                     </children></HBox>
+                     </children>
+                  </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <children>
                         <Spinner fx:id="spinnerForceValue" />
-                     </children></HBox>
+                     </children>
+                  </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <children>
                         <Spinner fx:id="spinnerRapiditeValue" />
-                     </children></HBox>
+                     </children>
+                  </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <children>
                         <Spinner fx:id="spinnerResValue" />
-                     </children></HBox>
+                     </children>
+                  </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                      <children>
                         <Spinner fx:id="spinnerVieValue" />
-                     </children></HBox>
+                     </children>
+                  </HBox>
                </children>
                <padding>
                   <Insets bottom="25.0" left="50.0" />

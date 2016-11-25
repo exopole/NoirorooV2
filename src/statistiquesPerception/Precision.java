@@ -4,6 +4,7 @@
 package statistiquesPerception;
 
 import java.util.Vector;
+import org.json.simple.JSONObject;
 
 import statistiques.StatistiqueDE;
 import statistiques.StatistiqueInterface;
@@ -20,6 +21,10 @@ public class Precision extends StatistiqueDE implements StatistiqueInterface {
 
 	public Precision(String value, String de) {
 		super(value, de);
+	}
+        
+        public Precision(JSONObject object) {
+		super(object);
 	}
 	
 	public Precision(Integer value) {

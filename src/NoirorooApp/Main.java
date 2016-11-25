@@ -1,18 +1,9 @@
 package NoirorooApp;
 
 import parsing.ParsingFile;
-import informations.Race;
-import informations.Classe;
-import informations.Competence;
-import front.view.AccueilOverviewController;
-import front.view.PersonnageOverviewController;
-import front.view.ClasseOverviewController;
-import front.view.RaceOverviewController;
-import front.view.CompetenceOverviewController;
-import front.view.adminView.AdminController;
-import front.view.adminView.ClasseAdminOverviewController;
-import front.view.adminView.CompetenceAdminOverviewController;
-import front.view.adminView.RaceAdminOverviewController;
+import informations.*;
+import front.view.*;
+import front.view.adminView.*;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -48,9 +39,16 @@ public class Main extends Application {
 
     private Stage stage;
 
+    enum Step {
+        race,
+        classe,
+        competence,
+        competenceAssociation
+    }
+
     private Map<String, Race> races = new HashMap<String, Race>();
-    private Map<String, Classe>  classes = new HashMap<String, Classe>(); 
-    private Map<String, Competence> competences =  new HashMap<String, Competence>();
+    private Map<String, Classe> classes = new HashMap<String, Classe>();
+    private Map<String, Competence> competences = new HashMap<String, Competence>();
     private ObservableList<Competence> compRace = FXCollections.observableArrayList();
     private ObservableList<Competence> compClasse = FXCollections.observableArrayList();
 
@@ -63,6 +61,7 @@ public class Main extends Application {
     RaceAdminOverviewController controllerAdminRace;
     ClasseAdminOverviewController controllerAdminClasse;
     CompetenceAdminOverviewController controllerAdminCompetence;
+    CompetenceAssociationOverviewController controllerAdminCompetenceAssociation;
 
     BorderPane panClasse = new BorderPane();
     BorderPane panRace = new BorderPane();
@@ -73,6 +72,7 @@ public class Main extends Application {
     BorderPane panAdminRace = new BorderPane();
     BorderPane panAdminClasse = new BorderPane();
     BorderPane panAdminCompetence = new BorderPane();
+    BorderPane panAdminCompetenceAssociation = new BorderPane();
 
     Scene current_Scene;
 
@@ -98,8 +98,8 @@ public class Main extends Application {
         controllerRace.setMainApp(this);
         panRace.setCenter(raceGridPane);
         panRace.setBottom(createButtonBar(current_step, lastStep));
-        //classe
 
+        //classe
         loadfxml = new FXMLLoader();
         loadfxml.setLocation(Main.class.getResource("/front/view/ClasseOverview.fxml"));
         GridPane classeGridPane = (GridPane) loadfxml.load();
@@ -118,7 +118,7 @@ public class Main extends Application {
                 String key = entry.getKey();
                 Integer value = entry.getValue();
                 listClasse.add(new Competence(competences.get(key), value));
-                
+
             }
         }
         compClasse = FXCollections.observableArrayList(listClasse);
@@ -130,7 +130,7 @@ public class Main extends Application {
                 String key = entry.getKey();
                 Integer value = entry.getValue();
                 listRace.add(new Competence(competences.get(key), value));
-                
+
             }
         }
         compRace = FXCollections.observableArrayList(listRace);
@@ -145,9 +145,9 @@ public class Main extends Application {
         controllerPersonnage = loadfxml.getController();
         if (classes.size() > 0 && races.size() > 0) {
             controllerPersonnage.setPersonnage(controllerRace.getRace(), controllerClasse.getClasse(), controllerCompetence.getCompetenceAll());
-        }
-        else
+        } else {
             System.out.println("NoirorooApp.Main.start() => on ne peut pas instancier le personnage car il n'y a ni classes ni races");
+        }
         panPersonnage.setCenter(personnageGridPane);
         panPersonnage.setBottom(createButtonBar(current_step, lastStep));
         // Page d'accueil
@@ -163,12 +163,14 @@ public class Main extends Application {
         Pane paneAdminCenter = (Pane) loadfxml.load();
         panAdmin.setCenter(paneAdminCenter);
         controllerAdmin = loadfxml.getController();
+        controllerAdmin.setMain(this);
 
         //Page AdminRace
         loadfxml = new FXMLLoader();
         loadfxml.setLocation(Main.class.getResource("/front/view/adminView/RaceAdminOverview.fxml"));
         GridPane paneAdminRaceCenter = (GridPane) loadfxml.load();
         panAdminRace.setCenter(paneAdminRaceCenter);
+        panAdminRace.setBottom(createButtonBarAdmin(Step.race));
         controllerAdminRace = loadfxml.getController();
         controllerAdminRace.setMainApp(this);
 
@@ -177,6 +179,7 @@ public class Main extends Application {
         loadfxml.setLocation(Main.class.getResource("/front/view/adminView/ClasseAdminOverview.fxml"));
         Pane paneAdminClasseCenter = (Pane) loadfxml.load();
         panAdminClasse.setCenter(paneAdminClasseCenter);
+        panAdminClasse.setBottom(createButtonBarAdmin(Step.classe));
         controllerAdminClasse = loadfxml.getController();
         controllerAdminClasse.setMainApp(this);
 
@@ -185,8 +188,20 @@ public class Main extends Application {
         loadfxml.setLocation(Main.class.getResource("/front/view/adminView/CompetenceAdminOverview.fxml"));
         Pane paneAdminCompetenceCenter = (Pane) loadfxml.load();
         panAdminCompetence.setCenter(paneAdminCompetenceCenter);
+        panAdminCompetence.setBottom(createButtonBarAdmin(Step.competence));
+
         controllerAdminCompetence = loadfxml.getController();
         controllerAdminCompetence.setCompetenceList(competences);
+        
+
+        //Page Admin competence association
+        loadfxml = new FXMLLoader();
+        loadfxml.setLocation(Main.class.getResource("/front/view/adminView/CompetenceAssociationOverview.fxml"));
+        Pane paneAdminCompetenceAssociationCenter = (Pane) loadfxml.load();
+        panAdminCompetenceAssociation.setCenter(paneAdminCompetenceAssociationCenter);
+        panAdminCompetenceAssociation.setBottom(createButtonBarAdmin(Step.competenceAssociation));
+        controllerAdminCompetenceAssociation = loadfxml.getController();
+        controllerAdminCompetenceAssociation.setCompetenceList(competences);
 
         // ajout des boutons 
         /*
@@ -196,7 +211,7 @@ public class Main extends Application {
         panPersonnage.setBottom(buttonAnchorPane);
          */
         //primaryStage.setScene(new Scene(pan));
-        current_Scene = new Scene(panAdminCompetence);
+        current_Scene = new Scene(panAdminRace);
         controllerAccueil.setMainApp(this);
         stage.setScene(current_Scene);
         stage.setFullScreen(true);
@@ -284,13 +299,13 @@ public class Main extends Application {
 
     public void prepareCompetence() {
         compClasse.clear();
-        Map<String,Integer>  competenceClasse = controllerClasse.getClasse().getCompetences();
+        Map<String, Integer> competenceClasse = controllerClasse.getClasse().getCompetences();
         List listClasse = new ArrayList();
         List listRace = new ArrayList();
         for (Map.Entry<String, Integer> entry : competenceClasse.entrySet()) {
             String key = entry.getKey();
             Integer value = entry.getValue();
-            listClasse.add(new Competence(competences.get(key),value));
+            listClasse.add(new Competence(competences.get(key), value));
         }
 
         compClasse = FXCollections.observableArrayList(listClasse);
@@ -301,7 +316,7 @@ public class Main extends Application {
         for (Map.Entry<String, Integer> entry : competenceRace.entrySet()) {
             String key = entry.getKey();
             Integer value = entry.getValue();
-            listRace.add(new Competence(competences.get(key),value));
+            listRace.add(new Competence(competences.get(key), value));
         }
 
         compRace = FXCollections.observableArrayList(listRace);
@@ -377,6 +392,9 @@ public class Main extends Application {
         return button;
     }
 
+
+
+
     public Button createButtonFromStep(int etape) {
         Button button = new Button();
 
@@ -411,9 +429,37 @@ public class Main extends Application {
         return button;
     }
 
+    public AnchorPane createButtonBarAdmin(Step step) {
+        AnchorPane bar = new AnchorPane();
+        HBox hb = new HBox();
+        hb.getChildren().add(getButton(panAccueil, "Acceuil"));
+        hb.getChildren().add(getButton(panAdmin, "Admin"));
+
+        if (step == Step.classe) {
+            hb.getChildren().add(getButton(panAdminRace, "Race"));
+            hb.getChildren().add(getButton(panAdminCompetenceAssociation, "Competences"));
+        } else if (step == Step.race) {
+            hb.getChildren().add(getButton(panAdminClasse, "Classe"));
+            hb.getChildren().add(getButton(panAdminCompetenceAssociation, "Competences"));
+        } else if (step == Step.competenceAssociation) {
+            hb.getChildren().add(getButton(panAdminRace, "Race"));
+            hb.getChildren().add(getButton(panAdminCompetenceAssociation, "Classe"));
+            hb.getChildren().add(getButton(panAdmin, "Enregistrer"));
+            
+        } else if (step == Step.competence) {
+            hb.getChildren().add(getButton(panAdminRace, "Race"));
+            hb.getChildren().add(getButton(panAdminClasse, "Classe"));
+        }
+
+        bar.getChildren().add(hb);
+        AnchorPane.setRightAnchor(hb, 0.0);
+        return bar;
+    }
+
     public AnchorPane createButtonBar(int currentStep, int lastStep) {
         AnchorPane bar = new AnchorPane();
         HBox hb = new HBox();
+        hb.getChildren().add(getButton(panAccueil, "Acceuil"));
         for (int i = 1; i <= lastStep; i++) {
             if (i != currentStep) {
                 hb.getChildren().add(createButtonFromStep(i));
@@ -427,6 +473,24 @@ public class Main extends Application {
         bar.getChildren().add(hb);
         AnchorPane.setRightAnchor(hb, 0.0);
         return bar;
+    }
+
+    public Button getButton(BorderPane pane, String name) {
+        Button button = new Button();
+        button.setText(name);
+        button.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+
+                current_Scene.setRoot(pane);
+                stage.setScene(current_Scene);
+                System.out.println(".handle() + setScene");
+                stage.setFullScreen(true);
+                stage.show();
+            }
+        });
+        return button;
     }
 
     public ClasseOverviewController getControllerClasse() {
@@ -465,6 +529,29 @@ public class Main extends Application {
         return panAdminRace;
     }
 
+    public BorderPane getPanAdminCompetence() {
+        return panAdminCompetence;
+    }
+
+    public BorderPane getPanAdminCompetenceAssociation() {
+        return panAdminCompetenceAssociation;
+    }
+
+    public BorderPane getPanAdminFromStep(Step step) {
+        switch (step) {
+            case classe:
+                return getPanAdminClasse();
+            case race:
+                return getPanAdminRace();
+            case competence:
+                return getPanAdminCompetence();
+            case competenceAssociation:
+                return getPanAdminCompetenceAssociation();
+            default:
+                return null;
+        }
+    }
+
     public Scene getCurrent_Scene() {
         return current_Scene;
     }
@@ -485,10 +572,8 @@ public class Main extends Application {
         return stage;
     }
 
-    public void setSceneShow(BorderPane pane) {
-
-        pane.setBottom(createButtonBar(current_step, lastStep));
-        System.out.println(".handle() + setBottom");
+    
+    public void setScene(BorderPane pane) {
         current_Scene.setRoot(pane);
         stage.setScene(current_Scene);
         System.out.println(".handle() + setScene");

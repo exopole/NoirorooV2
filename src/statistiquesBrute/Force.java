@@ -4,6 +4,7 @@
 package statistiquesBrute;
 
 import java.util.Vector;
+import org.json.simple.JSONObject;
 
 import statistiques.StatistiqueDE;
 import statistiques.StatistiqueInterface;
@@ -20,6 +21,10 @@ public class Force extends StatistiqueDE implements StatistiqueInterface{
 	
 	public Force(Vector<String> vector) {
 		super(vector);
+	}
+        
+        public Force(JSONObject json) {
+		super(json);
 	}
 
 	public Force(Integer value) {

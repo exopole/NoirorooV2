@@ -4,6 +4,7 @@
 package statistiquesPerception;
 
 import java.util.Vector;
+import org.json.simple.JSONObject;
 
 import statistiques.StatistiqueDE;
 import statistiques.StatistiqueInterface;
@@ -25,6 +26,10 @@ public class Endurance extends StatistiqueDE implements StatistiqueInterface {
 	}
 
 	public Endurance(Integer value) {
+		// TODO Auto-generated constructor stub
+		super(value);
+	}
+	public Endurance(JSONObject value) {
 		// TODO Auto-generated constructor stub
 		super(value);
 	}

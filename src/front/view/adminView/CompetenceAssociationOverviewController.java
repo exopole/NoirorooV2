@@ -5,14 +5,13 @@
  */
 package front.view.adminView;
 
-import informations.*;
-import java.io.File;
-import java.io.FileWriter;
+import informations.Classe;
+import informations.Competence;
+import informations.Race;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Vector;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -30,10 +29,18 @@ import parsing.ParsingFile;
  *
  * @author exopole
  */
-public class CompetenceAdminOverviewController implements Initializable {
+public class CompetenceAssociationOverviewController implements Initializable {
 
-    private String pathCompetence = "Competence/competences.json";
-    private String pathId = "Competence/identifiant";
+private String pathCompetence = "Competence/competences.json";
+    private enum ASSOCIATIONWITH{
+        classe,
+        race
+    };
+    ASSOCIATIONWITH assoc;
+    
+    
+    Classe classe;
+    Race race;
 
     @FXML
     private Button ajouter = new Button();
@@ -210,4 +217,24 @@ public class CompetenceAdminOverviewController implements Initializable {
             compList.add(entry.getValue());
         }
     }
+    
+    public void setRace(Race race){
+        this.race = race;
+        assoc = ASSOCIATIONWITH.race;
+        
+    }
+    
+    public void setClasse(Classe classe){
+        this.classe = classe;
+        assoc = ASSOCIATIONWITH.classe;
+    }
+
+    public ASSOCIATIONWITH getAssoc() {
+        return assoc;
+    }
+    
+    
+    
+    
+   
 }

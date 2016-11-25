@@ -20,10 +20,13 @@ import javafx.scene.control.Button;
 public class AdminController implements Initializable {
 
     @FXML
-    Button goToRace = new Button("Race");
+    Button raceButton = new Button("Race");
     
     @FXML
-    Button goToClasse = new Button("Classe");
+    Button classeButton = new Button("Classe");
+    
+    @FXML
+    Button competenceButton = new Button("Competence");
     
     Main main;
 
@@ -38,28 +41,26 @@ public class AdminController implements Initializable {
     }    
     
     @FXML
-    public void goToRaceAdminView(){
+    public void goToRace(){
         System.out.println("Go to admin race view");
-        main.getCurrent_Scene().setRoot(main.getPanRace());
-        main.getStage().setScene(main.getCurrent_Scene());
-        System.out.println(".handle() + setScene");
-        main.getStage().setFullScreen(true);
-        main.getStage().show();
+        main.setScene(main.getPanAdminRace());
     }
 
     
     
     @FXML
-    public void noirorooInteraction(){
+    public void goToClasse(){
         System.out.println("noiroroo view");
-        main.getPanRace().setBottom(main.createButtonBar(1, 1));
-        System.out.println(".handle() + setBottom");
-        main.getCurrent_Scene().setRoot(main.getPanRace());
-        main.getStage().setScene(main.getCurrent_Scene());
-        System.out.println(".handle() + setScene");
-        main.getStage().setFullScreen(true);
-        main.getStage().show();
+        main.setScene(main.getPanAdminClasse());
     }
 
+    @FXML
+    public void goToCompetence(){
+        System.out.println("noiroroo view");
+        main.setScene(main.getPanAdminCompetence());
+    } 
     
+    public void setMain(Main main){
+        this.main = main;
+    }
 }

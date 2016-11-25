@@ -4,6 +4,7 @@
 package statistiquesBrute;
 
 import java.util.Vector;
+import org.json.simple.JSONObject;
 
 import statistiques.StatistiqueDE;
 import statistiques.StatistiqueInterface;
@@ -17,6 +18,10 @@ public class Rapidite extends StatistiqueDE implements StatistiqueInterface {
 	public Rapidite(Vector<String> vector) {
 		super(vector);
 		// TODO Auto-generated constructor stub
+	}
+        
+        public Rapidite(JSONObject json) {
+		super(json);
 	}
 	
 	public Rapidite(String value, String de) {

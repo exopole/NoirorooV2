@@ -1,5 +1,7 @@
 package statistiques;
 
+import org.json.simple.JSONObject;
+
 /**
  * @author exopole
  *
@@ -17,7 +19,7 @@ public abstract class Statistique {
         // TODO Auto-generated constructor stub
         this.value = Integer.valueOf(value);
     }
-
+    
     /**
      *
      * @param value
@@ -39,5 +41,28 @@ public abstract class Statistique {
     public Integer getValue() {
         return value;
     }
+
+    public void setValue(Integer value) {
+        this.value = value;
+    }
+    
+    
+    public void setValue(String value) {
+        this.value = Integer.valueOf(value);
+    }
+    
+    
+    
+    
+     /**
+     * @return value
+     */
+    public JSONObject getJsonObject() {
+        
+        JSONObject obj = new JSONObject();
+        obj.put("value", value.intValue());
+        return obj;
+    }
+    
 
 }

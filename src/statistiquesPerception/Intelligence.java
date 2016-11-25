@@ -4,6 +4,7 @@
 package statistiquesPerception;
 
 import java.util.Vector;
+import org.json.simple.JSONObject;
 
 import statistiques.StatistiqueDE;
 import statistiques.StatistiqueInterface;
@@ -15,6 +16,10 @@ import statistiques.StatistiqueInterface;
 public class Intelligence extends StatistiqueDE implements StatistiqueInterface{
 
 	public Intelligence(Vector<String> value) {
+		super(value);
+		// TODO Auto-generated constructor stub
+	}
+	public Intelligence(JSONObject value) {
 		super(value);
 		// TODO Auto-generated constructor stub
 	}

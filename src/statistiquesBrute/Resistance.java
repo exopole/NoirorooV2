@@ -4,6 +4,7 @@
 package statistiquesBrute;
 
 import java.util.Vector;
+import org.json.simple.JSONObject;
 
 import statistiques.StatistiqueDE;
 import statistiques.StatistiqueInterface;
@@ -22,6 +23,10 @@ public class Resistance extends StatistiqueDE implements StatistiqueInterface {
 
 	public Resistance( String value, String de) {
 		super(value, de);
+	}
+        
+        public Resistance(JSONObject json) {
+		super(json);
 	}
 
 	public Resistance(Integer value) {

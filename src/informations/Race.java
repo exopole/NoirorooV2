@@ -62,7 +62,7 @@ public class Race {
 
             JSONObject jsonObject = (JSONObject) obj;
             name = (String) jsonObject.get("Name");
-            statPerception = new StatistiquePerception((String) jsonObject.get("Perception"));
+            statPerception = new StatistiquePerception((JSONObject) jsonObject.get("Perception"));
             statBrute = new StatistiqueBruteRace((String) jsonObject.get("Brute"));
             initCompetence((JSONObject) jsonObject.get("Competence"));
             description = (String) jsonObject.get("Description");
@@ -136,6 +136,28 @@ public class Race {
         comp.add(name);
         comp.add(identifiant);
 
+    }
+
+    public JSONObject getJSONCompetence() {
+        JSONObject result = new JSONObject();
+
+        for (Map.Entry<String, Integer> entry : competences.entrySet()) {
+            String key = entry.getKey();
+            Integer value = entry.getValue();
+            result.put(key, value);
+        }
+
+        return result;
+    }
+
+    public JSONObject getJSONObject() {
+        JSONObject result = new JSONObject();
+        result.put("Name", name);
+        result.put("Brute", statBrute.getJsonObject());
+        result.put("Perception", statPerception.getJsonObject());
+        result.put("Competence", getJSONCompetence());
+        result.put("Description", this.description);
+        return result;
     }
 
     public void compute() {

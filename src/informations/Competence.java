@@ -283,6 +283,17 @@ public class Competence {
         return id;
     }
 
+    public String[] getClasses() {
+        return listClasses;
+    }
+
+    public String[] getRaces() {
+        return listRaces;
+    }
+    
+    
+    
+
     /**
      * Retourne le temps d'incantation necessaire pour lancer la competence
      *
@@ -374,6 +385,10 @@ public class Competence {
     @Override
     public String toString() {
         return super.toString(); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+     public static void main(String[] args) {
+         System.out.println("informations.Competence.main()");
     }
 
 }

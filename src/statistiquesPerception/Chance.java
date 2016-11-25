@@ -4,6 +4,7 @@
 package statistiquesPerception;
 
 import java.util.Vector;
+import org.json.simple.JSONObject;
 
 import statistiques.StatistiqueDE;
 import statistiques.StatistiqueInterface;
@@ -16,6 +17,10 @@ public class Chance extends StatistiqueDE implements StatistiqueInterface {
 
 	public Chance(Vector<String> value) {
 		super(value);
+		// TODO Auto-generated constructor stub
+	}
+	public Chance(JSONObject object) {
+		super(object);
 		// TODO Auto-generated constructor stub
 	}
 	
