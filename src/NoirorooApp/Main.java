@@ -192,7 +192,6 @@ public class Main extends Application {
 
         controllerAdminCompetence = loadfxml.getController();
         controllerAdminCompetence.setCompetenceList(competences);
-        
 
         //Page Admin competence association
         loadfxml = new FXMLLoader();
@@ -226,14 +225,18 @@ public class Main extends Application {
         File[] listOfFilesRace = (new File("RaceJSON/")).listFiles();
         File[] listOfFilesClasse = (new File("ClasseJSON/")).listFiles();
 
-        for (int i = 0; i < listOfFilesRace.length; i++) {
-            Race newRace = new Race(listOfFilesRace[i].getPath());
-            races.put(newRace.getName(), newRace);
-        }
+        if (listOfFilesRace != null) {
+            for (int i = 0; i < listOfFilesRace.length; i++) {
+                Race newRace = new Race(listOfFilesRace[i].getPath());
+                races.put(newRace.getName(), newRace);
+            }
 
-        for (int i = 0; i < listOfFilesClasse.length; i++) {
-            Classe newClasse = new Classe(listOfFilesClasse[i].getPath());
-            classes.put(newClasse.getName(), newClasse);
+        }
+        if (listOfFilesClasse != null) {
+            for (int i = 0; i < listOfFilesClasse.length; i++) {
+                Classe newClasse = new Classe(listOfFilesClasse[i].getPath());
+                classes.put(newClasse.getName(), newClasse);
+            }
         }
 
         /*
@@ -392,9 +395,6 @@ public class Main extends Application {
         return button;
     }
 
-
-
-
     public Button createButtonFromStep(int etape) {
         Button button = new Button();
 
@@ -445,7 +445,7 @@ public class Main extends Application {
             hb.getChildren().add(getButton(panAdminRace, "Race"));
             hb.getChildren().add(getButton(panAdminCompetenceAssociation, "Classe"));
             hb.getChildren().add(getButton(panAdmin, "Enregistrer"));
-            
+
         } else if (step == Step.competence) {
             hb.getChildren().add(getButton(panAdminRace, "Race"));
             hb.getChildren().add(getButton(panAdminClasse, "Classe"));
@@ -572,8 +572,18 @@ public class Main extends Application {
         return stage;
     }
 
-    
     public void setScene(BorderPane pane) {
+        current_Scene.setRoot(pane);
+        stage.setScene(current_Scene);
+        System.out.println(".handle() + setScene");
+        stage.setFullScreen(true);
+        stage.show();
+        controllerPersonnage.setSize(stage.getWidth(), stage.getHeight());
+
+    }
+
+    public void setSceneWithBarButton(BorderPane pane) {
+        pane.setBottom(createButtonBar(current_step, lastStep));
         current_Scene.setRoot(pane);
         stage.setScene(current_Scene);
         System.out.println(".handle() + setScene");

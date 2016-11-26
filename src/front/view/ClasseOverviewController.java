@@ -175,7 +175,7 @@ public class ClasseOverviewController implements Initializable {
                 classeCurrent = newValue.intValue();
                 if (main.getLastStep() == 4) {
                     main.setLastStep(main.getLastStep() - 1);
-                    main.setSceneShow(main.getPanClasse());
+                    main.setSceneWithBarButton(main.getPanClasse());
                 }
             }
         });
