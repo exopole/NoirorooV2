@@ -4,6 +4,7 @@
 package statistiquesPerception;
 
 import java.util.Vector;
+import org.json.simple.JSONObject;
 
 import statistiques.StatistiqueDE;
 import statistiques.StatistiqueInterface;
@@ -24,7 +25,15 @@ public class Esquive extends StatistiqueDE implements StatistiqueInterface {
 		super(value);
 		// TODO Auto-generated constructor stub
 	}
+        
+        
+        public Esquive(JSONObject object) {
+		super(object);
+		// TODO Auto-generated constructor stub
+	}
 	
+        
+        
 	public Esquive(Integer value) {
 		// TODO Auto-generated constructor stub
 		super(value);

@@ -21,31 +21,32 @@ public class AccueilOverviewController implements Initializable {
 
     @FXML
     Button administrateur = new Button("Administrateur");
-    
+
     @FXML
     Button noiroroo = new Button("noiroroo");
-    
+
     Main main;
-    
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-    
+    }
+
     public void setMainApp(Main main) {
         this.main = main;
     }
 
-    
     @FXML
-    public void administrateurInteraction(){
+    public void administrateurInteraction() {
         System.out.println("administrateur view");
+        main.setScene(main.getPanAdmin());
     }
+
     @FXML
-    public void noirorooInteraction(){
+    public void noirorooInteraction() {
         System.out.println("noiroroo view");
         main.getPanRace().setBottom(main.createButtonBar(1, 1));
         System.out.println(".handle() + setBottom");
@@ -55,5 +56,5 @@ public class AccueilOverviewController implements Initializable {
         main.getStage().setFullScreen(true);
         main.getStage().show();
     }
-    
+
 }

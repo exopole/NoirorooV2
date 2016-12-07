@@ -186,7 +186,7 @@ public class RaceOverviewController implements Initializable {
                 raceCurrent = newValue.intValue();
                 if (main.getLastStep() == 4) {
                     main.setLastStep(main.getLastStep() - 1);
-                    main.setSceneShow(main.getPanRace());
+                    main.setScene(main.getPanRace());
                 }
             }
         });

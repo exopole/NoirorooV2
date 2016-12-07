@@ -1,6 +1,7 @@
 package statistiquesBrute;
 
 import java.util.Vector;
+import org.json.simple.JSONObject;
 
 import statistiques.StatistiqueDE;
 import statistiques.StatistiqueInterface;
@@ -15,6 +16,10 @@ public class Vie extends StatistiqueDE implements StatistiqueInterface{
 	public Vie(Vector<String> vector) {
 		// TODO Auto-generated method stub
 		super(vector);
+	}
+        
+        public Vie(JSONObject json) {
+		super(json);
 	}
 	
 	public Vie(Integer value) {

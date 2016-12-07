@@ -4,6 +4,7 @@
 package statistiquesBrute;
 
 import java.util.Vector;
+import org.json.simple.JSONObject;
 
 import statistiques.StatistiqueDE;
 import statistiques.StatistiqueInterface;
@@ -19,6 +20,10 @@ public class Esprit extends StatistiqueDE implements StatistiqueInterface {
 		// TODO Auto-generated constructor stub
 	}
 	
+        public Esprit(JSONObject json) {
+		super(json);
+	}
+        
 	public Esprit(Vector<String> value) {
 		super(value);
 		// TODO Auto-generated constructor stub

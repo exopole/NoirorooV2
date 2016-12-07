@@ -6,13 +6,12 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<BorderPane xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="front.view.adminView.CompetenceAdminOverviewController">
-   <center>
+<Pane xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="front.view.adminView.CompetenceAssociationClasseOverviewController">
+   <children>
       <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="50.0">
          <children>
             <HBox spacing="50.0">
@@ -37,15 +36,25 @@
             </TableView>
             <HBox prefHeight="40.0" prefWidth="1189.0">
                <children>
-                  <TextArea fx:id="nom" prefHeight="42.0" prefWidth="273.0" promptText="Nom" />
-                  <TextArea fx:id="type" prefHeight="200.0" prefWidth="200.0" promptText="Type" />
-                  <TextArea fx:id="nature" prefHeight="200.0" prefWidth="200.0" promptText="Nature" />
-                  <TextArea fx:id="levelMax" prefHeight="200.0" prefWidth="200.0" promptText="level max" />
-                  <TextArea fx:id="incantationTime" prefHeight="200.0" prefWidth="200.0" promptText="Incantation" text="Temps d'incantation&#10;" />
+                  <TextArea fx:id="nom" prefHeight="42.0" prefWidth="273.0" promptText="Nom" wrapText="true" />
+                  <TextArea fx:id="type" prefHeight="200.0" prefWidth="200.0" promptText="Type" wrapText="true" />
+                  <TextArea fx:id="nature" prefHeight="200.0" prefWidth="200.0" promptText="Nature" wrapText="true" />
+                  <TextArea fx:id="levelMax" prefHeight="200.0" prefWidth="200.0" promptText="level max" wrapText="true" />
+                  <TextArea fx:id="incantationTime" prefHeight="200.0" prefWidth="200.0" promptText="Temps d'incantation" text="&#10;" wrapText="true" />
+                  <TextArea fx:id="experience" prefHeight="200.0" prefWidth="200.0" promptText="Experience" wrapText="true" />
                </children>
             </HBox>
             <HBox prefHeight="205.0" prefWidth="1147.0" spacing="100.0">
                <children>
+                  <TableView fx:id="tableCompAssoc" prefHeight="200.0" prefWidth="200.0">
+                    <columns>
+                      <TableColumn fx:id="colNomAssoc" prefWidth="75.0" text="Nom" />
+                      <TableColumn fx:id="colExp" prefWidth="75.0" text="Exp" />
+                    </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
                   <VBox spacing="25.0">
                      <children>
                         <Label text="Description :" />
@@ -71,5 +80,8 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
       </VBox>
-   </center>
-</BorderPane>
+   </children>
+   <padding>
+      <Insets right="20.0" top="20.0" />
+   </padding>
+</Pane>

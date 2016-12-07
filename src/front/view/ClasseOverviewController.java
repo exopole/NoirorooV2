@@ -119,41 +119,45 @@ public class ClasseOverviewController implements Initializable {
 
         List list = new ArrayList();
 
-       Map<String, Integer> competenceClasse = classe.getCompetences();
-        for (Map.Entry<String, Integer> entry : competenceClasse.entrySet()) {
-            String key = entry.getKey();
-            Integer value = entry.getValue();
-            list.add(new Competence(competences.get(key), value));
-            
+        if (classe != null) {
+            Map<String, Integer> competenceClasse = classe.getCompetences();
+            for (Map.Entry<String, Integer> entry : competenceClasse.entrySet()) {
+                String key = entry.getKey();
+                Integer value = entry.getValue();
+                list.add(new Competence(competences.get(key), value));
+
+            }
         }
+
         /*
         for (Vector<String> comp : competenceClasse) {
             list.add(new Competence(competences.get(Integer.parseInt(comp.get(0))), Integer.parseInt(comp.get(0))));
         }
-*/
-
+         */
         compList = FXCollections.observableArrayList(list);
         tableCompetence.setItems(compList);
     }
 
     private void showClasse(Classe classe) {
-        chance.setText(classe.getStatPerception().getChance().toString());
-        charisme.setText(classe.getStatPerception().getCharisme().toString());
-        endurance.setText(classe.getStatPerception().getEndurance().toString());
-        esquive.setText(classe.getStatPerception().getEsquive().toString());
-        furtivite.setText(classe.getStatPerception().getFurtivite().toString());
-        habilite.setText(classe.getStatPerception().getHabilite().toString());
-        intelligence.setText(classe.getStatPerception().getIntelligence().toString());
-        precision.setText(classe.getStatPerception().getPrecision().toString());
-        //Initialisation des statistique brute
-        dexterite.setText(classe.getStatBrute().getDexterite().toString());
-        esprit.setText(classe.getStatBrute().getEsprit().toString());
-        force.setText(classe.getStatBrute().getForce().toString());
-        rapidite.setText(classe.getStatBrute().getRapidite().toString());
-        resistance.setText(classe.getStatBrute().getResistance().toString());
-        vie.setText(classe.getStatBrute().getVie().toString());
-        // initialisation des informations complémentaire
-        description.setText(classe.getDescription());
+        if (classe != null) {
+            chance.setText(classe.getStatPerception().getChance().toString());
+            charisme.setText(classe.getStatPerception().getCharisme().toString());
+            endurance.setText(classe.getStatPerception().getEndurance().toString());
+            esquive.setText(classe.getStatPerception().getEsquive().toString());
+            furtivite.setText(classe.getStatPerception().getFurtivite().toString());
+            habilite.setText(classe.getStatPerception().getHabilite().toString());
+            intelligence.setText(classe.getStatPerception().getIntelligence().toString());
+            precision.setText(classe.getStatPerception().getPrecision().toString());
+            //Initialisation des statistique brute
+            dexterite.setText(classe.getStatBrute().getDexterite().toString());
+            esprit.setText(classe.getStatBrute().getEsprit().toString());
+            force.setText(classe.getStatBrute().getForce().toString());
+            rapidite.setText(classe.getStatBrute().getRapidite().toString());
+            resistance.setText(classe.getStatBrute().getResistance().toString());
+            vie.setText(classe.getStatBrute().getVie().toString());
+            // initialisation des informations complémentaire
+            description.setText(classe.getDescription());
+        }
 
     }
 
@@ -175,7 +179,7 @@ public class ClasseOverviewController implements Initializable {
                 classeCurrent = newValue.intValue();
                 if (main.getLastStep() == 4) {
                     main.setLastStep(main.getLastStep() - 1);
-                    main.setSceneShow(main.getPanClasse());
+                    main.setSceneWithBarButton(main.getPanClasse());
                 }
             }
         });
@@ -189,9 +193,9 @@ public class ClasseOverviewController implements Initializable {
             showClasse(classes.get(classeCurrent));
             competences = main.getCompetences();
             setCompClasse(classes.get(classeCurrent));
-        }
-        else
+        } else {
             System.out.println("front.view.ClasseOverviewController.setMainApp() => pas de classes initialisé pour le moment");
+        }
     }
 
 //    public void setMainApp(Main main, int raceCurrent) {

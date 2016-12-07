@@ -4,6 +4,7 @@
 package statistiquesPerception;
 
 import java.util.Vector;
+import org.json.simple.JSONObject;
 
 import statistiques.StatistiqueDE;
 import statistiques.StatistiqueInterface;
@@ -21,6 +22,10 @@ public class Charisme extends StatistiqueDE implements StatistiqueInterface {
 	}
 
 	public Charisme(Vector<String> value) {
+		super(value);
+		// TODO Auto-generated constructor stub
+	}
+	public Charisme(JSONObject value) {
 		super(value);
 		// TODO Auto-generated constructor stub
 	}

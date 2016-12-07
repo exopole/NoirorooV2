@@ -4,6 +4,7 @@
 package statistiquesPerception;
 
 import java.util.Vector;
+import org.json.simple.JSONObject;
 
 import statistiques.StatistiqueDE;
 import statistiques.StatistiqueInterface;
@@ -19,6 +20,9 @@ public class Habilite extends StatistiqueDE implements StatistiqueInterface {
 	}
 	
 	public Habilite(Vector<String> value) {
+		super(value);
+	}
+	public Habilite(JSONObject value) {
 		super(value);
 	}
 	

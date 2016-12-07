@@ -24,21 +24,8 @@ import java.util.List;
 import java.util.Map;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
-import statistiquesBrute.Deplacement;
-import statistiquesBrute.Dexterite;
-import statistiquesBrute.Esprit;
-import statistiquesBrute.Force;
-import statistiquesBrute.Rapidite;
-import statistiquesBrute.Resistance;
-import statistiquesBrute.Vie;
-import statistiquesPerception.Chance;
-import statistiquesPerception.Charisme;
-import statistiquesPerception.Endurance;
-import statistiquesPerception.Esquive;
-import statistiquesPerception.Furtivite;
-import statistiquesPerception.Habilite;
-import statistiquesPerception.Intelligence;
-import statistiquesPerception.Precision;
+import statistiquesBrute.*;
+import statistiquesPerception.*;
 
 /**
  * FXML Controller class
@@ -52,10 +39,11 @@ public class RaceAdminOverviewController implements Initializable {
     ObservableList<String> racesList;
     ObservableList<String> classeList;
     ObservableList<String> lvlPlayerList = FXCollections.observableArrayList("debutant", "normal", "bon", "expérimenté");
+    CompetenceAssociationOverviewController comptenceController;
     /////////// 
     @FXML
     ComboBox<String> raceBox;
-    
+
     @FXML
     TextArea description;
     @FXML
@@ -63,7 +51,7 @@ public class RaceAdminOverviewController implements Initializable {
 
     @FXML
     ChoiceBox classeConseiller;
-    
+
     @FXML
     ChoiceBox lvlPlayer;
     ////// Statistique Brute ////
@@ -226,20 +214,45 @@ public class RaceAdminOverviewController implements Initializable {
         });
         lvlPlayer.getItems().addAll(lvlPlayerList);
 
-        
+    }
+
+    @FXML
+    private void goToAccueil() {
+        main.setScene(main.getPanAccueil());
 
     }
-    
-    
-    
-    private void setDescription(Race race){
+
+    @FXML
+    private void goToAdmin() {
+        main.setScene(main.getPanAdmin());
+    }
+
+    @FXML
+    private void goToClasse() {
+        main.setScene(main.getPanAdminClasse());
+    }
+
+    @FXML
+    private void goToCompetences() {
+        main.setScene(main.getPanAdminCompetenceAssociationClasse());
+    }
+
+    public String getDescription() {
+        return description.getText();
+    }
+
+    private void setDescription(Race race) {
         description.setText(race.getDescription());
     }
 
-    private void setDescriptionPhysique(Race race){
+    public String getDescriptionPhysique() {
+        return descriptionPhysique.getText();
+    }
+
+    private void setDescriptionPhysique(Race race) {
         descriptionPhysique.setText(race.getApparence());
     }
-    
+
     private void setAllSpinner(Race race) {
         setDexteriteSpinner(race.getStatBrute().getDexterite());
         setEspritSpinner(race.getStatBrute().getEsprit());
@@ -266,13 +279,26 @@ public class RaceAdminOverviewController implements Initializable {
             spinnerDexNumberDe.getValueFactory().setValue(dex.getDe().getNumber());
         }
     }
+    
+
+    public Dexterite getDexterite() {
+        String de = ((String) spinnerDexNumberDe.getValueFactory().getValue()) + "D"  +  ((String) spinnerDexValueDe.getValueFactory().getValue());
+        String value = (String) spinnerDexValue.getValueFactory().getValue();
+        return new Dexterite(value, de);
+    }
 
     private void setEspritSpinner(Esprit esprit) {
         spinnerEspritValue.getValueFactory().setValue(esprit.getValue());
         if (esprit.getDe() != null) {
-            spinnerEspritValue.getValueFactory().setValue(esprit.getDe().getType());
-            spinnerEspritValue.getValueFactory().setValue(esprit.getDe().getNumber());
+            spinnerEspritValueDe.getValueFactory().setValue(esprit.getDe().getType());
+            spinnerEspritNumberDe.getValueFactory().setValue(esprit.getDe().getNumber());
         }
+    }
+
+    public Esprit getEsprit() {
+        String de = ((String) spinnerEspritNumberDe.getValueFactory().getValue()) + "D"  +  ((String) spinnerEspritValueDe.getValueFactory().getValue());
+        String value = (String) spinnerEspritValue.getValueFactory().getValue();
+        return new Esprit(value, de);
     }
 
     private void setForceSpinner(Force force) {
@@ -282,7 +308,12 @@ public class RaceAdminOverviewController implements Initializable {
             spinnerForceNumberDe.getValueFactory().setValue(force.getDe().getNumber());
         }
     }
-    
+
+    public Force getForce() {
+        String de = ((String) spinnerForceNumberDe.getValueFactory().getValue()) + "D"  +  ((String) spinnerForceValueDe.getValueFactory().getValue());
+        String value = (String) spinnerForceValue.getValueFactory().getValue();
+        return new Force(value, de);
+    }
 
     private void setRapiditeSpinner(Rapidite rapidite) {
         spinnerRapiditeValue.getValueFactory().setValue(rapidite.getValue());
@@ -291,6 +322,12 @@ public class RaceAdminOverviewController implements Initializable {
             spinnerRapiditeValueDe.getValueFactory().setValue(rapidite.getDe().getType());
             spinnerRapiditeNumberDe.getValueFactory().setValue(rapidite.getDe().getNumber());
         }
+    }
+
+    public Rapidite getRapidite() {
+        String de = ((String) spinnerRapiditeNumberDe.getValueFactory().getValue()) + "D"  +  ((String) spinnerRapiditeValueDe.getValueFactory().getValue());
+        String value = (String) spinnerRapiditeValue.getValueFactory().getValue();
+        return new Rapidite(value, de);
     }
 
     private void setResistanceSpinner(Resistance res) {
@@ -302,6 +339,12 @@ public class RaceAdminOverviewController implements Initializable {
         }
     }
 
+    public Resistance getResistance() {
+        String de = ((String) spinnerResNumberDe.getValueFactory().getValue()) + "D"  +  ((String) spinnerResValueDe.getValueFactory().getValue());
+        String value = (String) spinnerResValue.getValueFactory().getValue();
+        return new Resistance(value, de);
+    }
+
     private void setVieSpinner(Vie vie) {
         spinnerVieValue.getValueFactory().setValue(vie.getValue());
         if (vie.getDe() != null) {
@@ -310,9 +353,19 @@ public class RaceAdminOverviewController implements Initializable {
             spinnerVieNumberDe.getValueFactory().setValue(vie.getDe().getNumber());
         }
     }
+    
+    public Vie getVie() {
+        String de = ((String) spinnerVieNumberDe.getValueFactory().getValue()) + "D"  +  ((String) spinnerVieValueDe.getValueFactory().getValue());
+        String value = (String) spinnerVieValue.getValueFactory().getValue();
+        return new Vie(value, de);
+    }
 
     private void setDeplacementSpinner(Deplacement dep) {
         spinnerDeplacementValue.getValueFactory().setValue(dep.getValue());
+    }
+
+    public Deplacement getDeplacement() {
+        return new Deplacement((String) spinnerDeplacementValue.getValueFactory().getValue());
     }
 
     private void setChanceSpinner(Chance chance) {
@@ -321,6 +374,12 @@ public class RaceAdminOverviewController implements Initializable {
             spinnerChanceValueDe.getValueFactory().setValue(chance.getDe().getType());
             spinnerChanceNumberDe.getValueFactory().setValue(chance.getDe().getNumber());
         }
+    }
+
+    public Chance getChance() {
+        String de = ((String) spinnerChanceNumberDe.getValueFactory().getValue()) + "D"  +  ((String) spinnerChanceValueDe.getValueFactory().getValue());
+        String value = (String) spinnerChanceValue.getValueFactory().getValue();
+        return new Chance(value, de);
     }
 
     private void setCharismeSpinner(Charisme charisme) {
@@ -332,6 +391,12 @@ public class RaceAdminOverviewController implements Initializable {
         }
     }
 
+    public Charisme getCharisme() {
+        String de = ((String) spinnerCharismeNumberDe.getValueFactory().getValue()) + "D"  +  ((String) spinnerCharismeValueDe.getValueFactory().getValue());
+        String value = (String) spinnerCharismeValue.getValueFactory().getValue();
+        return new Charisme(value, de);
+    }
+
     private void setEnduranceSpinner(Endurance endurance) {
         spinnerEnduranceValue.getValueFactory().setValue(endurance.getValue());
         if (endurance.getDe() != null) {
@@ -339,6 +404,12 @@ public class RaceAdminOverviewController implements Initializable {
             spinnerEnduranceValueDe.getValueFactory().setValue(endurance.getDe().getType());
             spinnerEnduranceNumberDe.getValueFactory().setValue(endurance.getDe().getNumber());
         }
+    }
+
+    public Endurance getEndurance() {
+        String de = ((String) spinnerEnduranceNumberDe.getValueFactory().getValue()) + "D"  +  ((String) spinnerEnduranceValueDe.getValueFactory().getValue());
+        String value = (String) spinnerEnduranceValue.getValueFactory().getValue();
+        return new Endurance(value, de);
     }
 
     private void setEsquiveSpinner(Esquive esq) {
@@ -350,6 +421,12 @@ public class RaceAdminOverviewController implements Initializable {
         }
     }
 
+    public Esquive getEsquive() {
+        String de = ((String) spinnerEsquiveNumberDe.getValueFactory().getValue()) + "D"  +  ((String) spinnerEsquiveValueDe.getValueFactory().getValue());
+        String value = (String) spinnerEsquiveValue.getValueFactory().getValue();
+        return new Esquive(value, de);
+    }
+
     private void setFurtiviteSpinner(Furtivite furtivite) {
         spinnerFurtiviteValue.getValueFactory().setValue(furtivite.getValue());
         if (furtivite.getDe() != null) {
@@ -357,6 +434,12 @@ public class RaceAdminOverviewController implements Initializable {
             spinnerFurtiviteValueDe.getValueFactory().setValue(furtivite.getDe().getType());
             spinnerFurtiviteNumberDe.getValueFactory().setValue(furtivite.getDe().getNumber());
         }
+    }
+
+    public Furtivite getFurtivite() {
+        String de = ((String) spinnerFurtiviteNumberDe.getValueFactory().getValue()) + "D"  +  ((String) spinnerFurtiviteValueDe.getValueFactory().getValue());
+        String value = (String) spinnerFurtiviteValue.getValueFactory().getValue();
+        return new Furtivite(value, de);
     }
 
     private void setHabiliteSpinner(Habilite hab) {
@@ -368,6 +451,12 @@ public class RaceAdminOverviewController implements Initializable {
         }
     }
 
+    public Habilite getHabilite() {
+        String de = ((String) spinnerHabiliteNumberDe.getValueFactory().getValue()) + "D"  +  ((String) spinnerHabiliteValueDe.getValueFactory().getValue());
+        String value = (String) spinnerHabiliteValue.getValueFactory().getValue();
+        return new Habilite(value, de);
+    }
+
     private void setIntelligenceSpinner(Intelligence intelligence) {
         spinnerIntelligenceValue.getValueFactory().setValue(intelligence.getValue());
         if (intelligence.getDe() != null) {
@@ -375,6 +464,12 @@ public class RaceAdminOverviewController implements Initializable {
             spinnerIntelligenceValueDe.getValueFactory().setValue(intelligence.getDe().getType());
             spinnerIntelligenceNumberDe.getValueFactory().setValue(intelligence.getDe().getNumber());
         }
+    }
+
+    public Intelligence getIntelligence() {
+        String de = ((String) spinnerIntelligenceNumberDe.getValueFactory().getValue()) + "D"  +  ((String) spinnerIntelligenceValueDe.getValueFactory().getValue());
+        String value = (String) spinnerIntelligenceValue.getValueFactory().getValue();
+        return new Intelligence(value, de);
     }
 
     private void setPrecisionSpinner(Precision prec) {
@@ -386,10 +481,18 @@ public class RaceAdminOverviewController implements Initializable {
         }
     }
 
+    public Precision getPrecision() {
+        String de = ((String) spinnerPrecisionNumberDe.getValueFactory().getValue()) + "D"  +  ((String) spinnerPrecisionValueDe.getValueFactory().getValue());
+        String value = (String) spinnerPrecisionValue.getValueFactory().getValue();
+        return new Precision(value, de);
+    }
+
     public void setRacesList(Map<String, Race> races) {
         List<String> list = new ArrayList<>(races.keySet());
         racesList = FXCollections.observableList(list);
     }
+
+
     public void setClassesList(Map<String, Classe> classes) {
         List<String> list = new ArrayList<>(classes.keySet());
         classeList = FXCollections.observableList(list);
@@ -403,6 +506,11 @@ public class RaceAdminOverviewController implements Initializable {
         raceBox.getItems().addAll(racesList);
         classeConseiller.getItems().addAll(classeList);
 
+    }
+    
+    
+    public void setControllerCompetence(CompetenceAssociationOverviewController comptenceController){
+        this.comptenceController = comptenceController;
     }
 
 }

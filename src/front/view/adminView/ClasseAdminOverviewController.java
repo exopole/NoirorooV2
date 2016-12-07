@@ -24,6 +24,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextArea;
+import statistiques.StatistiqueBruteClasse;
+import statistiques.StatistiquePerception;
 import statistiquesBrute.Deplacement;
 import statistiquesBrute.Dexterite;
 import statistiquesBrute.Esprit;
@@ -46,16 +48,17 @@ import statistiquesPerception.Precision;
  * @author exopole
  */
 public class ClasseAdminOverviewController implements Initializable {
-    
+
     Main main;
     ObservableList<String> classeList;
-    
+    CompetenceAssociationOverviewController competenceController ;
+    Classe classe;
+
     @FXML
     ComboBox<String> classeBox;
-    
+
     @FXML
     TextArea description;
-
 
     ////// Statistique Brute ////
     /// Value
@@ -89,6 +92,7 @@ public class ClasseAdminOverviewController implements Initializable {
     Spinner spinnerIntelligenceValue;
     @FXML
     Spinner spinnerPrecisionValue;
+
     /**
      * Initializes the controller class.
      */
@@ -108,26 +112,57 @@ public class ClasseAdminOverviewController implements Initializable {
         spinnerHabiliteValue.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(-50, 50, 0));
         spinnerIntelligenceValue.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(-50, 50, 0));
         spinnerPrecisionValue.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(-50, 50, 0));
-        
-        
-        classeBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+
+        classeBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
-            public void changed(ObservableValue observable, Number oldValue, Number newValue) {
-                Classe classe = main.getClasses().get(newValue.intValue());
-                setAllSpinner(classe);
-                setDescription(classe);
+            public void changed(ObservableValue observable, String oldValue, String newValue) {
+                classe = main.getClasses().get(newValue);
+                if (classe != null) 
+                {
+                    setAllSpinner(classe);
+                    setDescription(classe);
+                }
             }
         });
 
-    }    
+    }
+
+    @FXML
+    private void goToAccueil() {
+        main.setScene(main.getPanAccueil());
+
+    }
+
+    @FXML
+    private void goToAdmin() {
+        main.setScene(main.getPanAdmin());
+    }
+
+    @FXML
+    private void goToRace() {
+        main.setScene(main.getPanAdminRace());
+    }
+
+    @FXML
+    private void goToCompetences() {
+        classe = newClasse();
+        System.out.println("front.view.adminView.ClasseAdminOverviewController.goToCompetences(),  classe => " + classe.toString());
+        competenceController.setClasse(classe);
+        main.setScene(main.getPanAdminCompetenceAssociation());
+    }
     
+    public String getNom(){
+        return classeBox.getValue();
+    }
     
-    private void setDescription(Classe classe){
+    public String getDescription(){
+        return description.getText();
+    }
+
+    private void setDescription(Classe classe) {
         description.setText(classe.getDescription());
     }
 
-    
-    
     private void setAllSpinner(Classe classe) {
         setDexteriteSpinner(classe.getStatBrute().getDexterite());
         setEspritSpinner(classe.getStatBrute().getEsprit());
@@ -149,60 +184,146 @@ public class ClasseAdminOverviewController implements Initializable {
     private void setDexteriteSpinner(Dexterite dex) {
         spinnerDexValue.getValueFactory().setValue(dex.getValue());
     }
+    
+    public Dexterite getDexterite(){
+        return new Dexterite((Integer) spinnerDexValue.getValueFactory().getValue());
+    }
 
     private void setEspritSpinner(Esprit esprit) {
         spinnerEspritValue.getValueFactory().setValue(esprit.getValue());
+    }
+    
+    public Esprit getEsprit(){
+        return new Esprit((Integer) spinnerEspritValue.getValueFactory().getValue());
     }
 
     private void setForceSpinner(Force force) {
         spinnerForceValue.getValueFactory().setValue(force.getValue());
     }
-    
 
+    public Force getForce(){
+        return new Force((Integer) spinnerForceValue.getValueFactory().getValue());
+    }
+    
     private void setRapiditeSpinner(Rapidite rapidite) {
         spinnerRapiditeValue.getValueFactory().setValue(rapidite.getValue());
     }
 
+    public Rapidite getRapidite(){
+        return new Rapidite((Integer) spinnerRapiditeValue.getValueFactory().getValue());
+    }
+    
     private void setResistanceSpinner(Resistance res) {
         spinnerResValue.getValueFactory().setValue(res.getValue());
     }
 
+    public Resistance getResistance(){
+        return new Resistance((Integer) spinnerResValue.getValueFactory().getValue());
+    }
+    
     private void setVieSpinner(Vie vie) {
         spinnerVieValue.getValueFactory().setValue(vie.getValue());
     }
 
-
+    public Vie getVie(){
+        return new Vie((Integer) spinnerVieValue.getValueFactory().getValue());
+    }
+    
     private void setChanceSpinner(Chance chance) {
         spinnerChanceValue.getValueFactory().setValue(chance.getValue());
     }
 
+    public Chance getChance(){
+        return new Chance((Integer) spinnerChanceValue.getValueFactory().getValue());
+    }
+    
     private void setCharismeSpinner(Charisme charisme) {
         spinnerCharismeValue.getValueFactory().setValue(charisme.getValue());
     }
 
+    public Charisme getCharisme(){
+        return new Charisme((Integer) spinnerCharismeValue.getValueFactory().getValue());
+    }
+    
     private void setEnduranceSpinner(Endurance endurance) {
         spinnerEnduranceValue.getValueFactory().setValue(endurance.getValue());
     }
 
+    public Endurance getEndurance(){
+        return new Endurance((Integer) spinnerEnduranceValue.getValueFactory().getValue());
+    }
+    
     private void setEsquiveSpinner(Esquive esq) {
         spinnerEsquiveValue.getValueFactory().setValue(esq.getValue());
     }
 
+    public Esquive getEsquive(){
+        return new Esquive((Integer) spinnerEsquiveValue.getValueFactory().getValue());
+    }
+    
     private void setFurtiviteSpinner(Furtivite furtivite) {
         spinnerFurtiviteValue.getValueFactory().setValue(furtivite.getValue());
     }
-
-    private void setHabiliteSpinner(Habilite hab) {
+    
+    public Furtivite getFurtivite(){
+        return new Furtivite((Integer) spinnerFurtiviteValue.getValueFactory().getValue());
+    }
+    
+    public void setHabiliteSpinner(Habilite hab) {
         spinnerHabiliteValue.getValueFactory().setValue(hab.getValue());
     }
 
+    public Habilite getHabilite(){
+        return new Habilite((Integer) spinnerHabiliteValue.getValueFactory().getValue());
+    }
+    
     private void setIntelligenceSpinner(Intelligence intelligence) {
         spinnerIntelligenceValue.getValueFactory().setValue(intelligence.getValue());
     }
 
-    private void setPrecisionSpinner(Precision prec) {
+    public Intelligence getIntelligence(){
+        return new Intelligence((Integer) spinnerIntelligenceValue.getValueFactory().getValue());
+    }
+    
+    public void setPrecisionSpinner(Precision prec) {
         spinnerPrecisionValue.getValueFactory().setValue(prec.getValue());
     }
+
+    public Precision getPrecision(){
+        return new Precision((Integer) spinnerPrecisionValue.getValueFactory().getValue());
+    }
+    
+    public StatistiqueBruteClasse getStatBrute(){
+        StatistiqueBruteClasse statBrute = new StatistiqueBruteClasse();
+        
+        statBrute.setDexterite(getDexterite());
+        statBrute.setEsprit(getEsprit());
+        statBrute.setForce(getForce());
+        statBrute.setRapidite(getRapidite());
+        statBrute.setResistance(getResistance());
+        statBrute.setVie(getVie());
+        
+        return statBrute;
+    }
+    
+    public StatistiquePerception getStatPerception(){
+        StatistiquePerception statPerception = new StatistiquePerception();
+        
+        statPerception.setChance(getChance());
+        statPerception.setCharisme(getCharisme());
+        statPerception.setEndurance(getEndurance());
+        statPerception.setEsquive(getEsquive());
+        statPerception.setFurtivite(getFurtivite());
+        statPerception.setHabilite(getHabilite());
+        statPerception.setIntelligence(getIntelligence());
+        statPerception.setPrecision(getPrecision());
+        
+        return statPerception;
+    }
+    
+    
+    
+    
     
     
     public void setClassesList(Map<String, Classe> classes) {
@@ -210,6 +331,8 @@ public class ClasseAdminOverviewController implements Initializable {
         classeList = FXCollections.observableList(list);
 
     }
+    
+    
 
     public void setMainApp(Main main) {
         this.main = main;
@@ -218,4 +341,23 @@ public class ClasseAdminOverviewController implements Initializable {
 
     }
     
+    public void setControllerCompetence(CompetenceAssociationOverviewController competenceController){
+        this.competenceController = competenceController;
+    }
+
+    public Classe newClasse() {
+        StatistiqueBruteClasse statBrute = getStatBrute();
+        StatistiquePerception statPerception = getStatPerception();
+        String nom = getNom();
+        String description = getDescription();
+        
+        Classe classe = new Classe();
+        classe.setName(nom);
+        classe.setDescription(description);
+        classe.setStatBrute(statBrute);
+        classe.setStatPerception(statPerception);
+        
+        return classe;
+    }
+
 }

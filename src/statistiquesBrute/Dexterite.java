@@ -4,6 +4,7 @@
 package statistiquesBrute;
 
 import java.util.Vector;
+import org.json.simple.JSONObject;
 
 import statistiques.StatistiqueDE;
 import statistiques.StatistiqueInterface;
@@ -18,6 +19,10 @@ public class Dexterite extends StatistiqueDE implements StatistiqueInterface {
 	
 	public Dexterite(String value, String de) {
 		super(value, de);
+	}
+        
+        public Dexterite(JSONObject json) {
+		super(json);
 	}
 	
 	public Dexterite(Vector<String> value) {
