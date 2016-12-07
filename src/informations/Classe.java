@@ -3,6 +3,7 @@ package informations;
 import parsing.ParsingString;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
@@ -57,6 +58,15 @@ public class Classe {
     private Map<String, Integer> competences;
 
     private Boolean compute = false;
+    
+    
+    public Classe() {
+        name = null;
+        description = null;
+        statBrute= null;
+        statPerception = null;
+        competences = new HashMap<>();
+    }
 
     /**
      * Constructeur permettant d'initie toutes les valeurs de la classe grace au
@@ -74,8 +84,8 @@ public class Classe {
 
             JSONObject jsonObject = (JSONObject) obj;
             name = (String) jsonObject.get("Name");
-            statPerception = new StatistiquePerception((String) jsonObject.get("Perception"));
-            statBrute = new StatistiqueBruteClasse((String) jsonObject.get("Brute"));
+            statPerception = new StatistiquePerception((JSONObject) jsonObject.get("Perception"));
+            statBrute = new StatistiqueBruteClasse((JSONObject) jsonObject.get("Brute"));
             initCompetence((JSONObject) jsonObject.get("Competence"));
             description = (String) jsonObject.get("Description");
 
@@ -84,12 +94,18 @@ public class Classe {
         }
 
     }
+    
+    
+
 
     public void initCompetence(JSONObject jsonObj) throws ParseException {
-        for (Iterator iterator = jsonObj.keySet().iterator(); iterator.hasNext();) {
+        if (jsonObj != null && ! jsonObj.isEmpty()) {
+            for (Iterator iterator = jsonObj.keySet().iterator(); iterator.hasNext();) {
             String key = (String) iterator.next();
             competences.put(key, (Integer) jsonObj.get(key));
         }
+        }
+        
 
 
     }
@@ -153,7 +169,10 @@ public class Classe {
     
     public JSONObject getJSONCompetence(){
         JSONObject result = new JSONObject();
-
+        
+        if (competences.isEmpty()) {
+            return null;
+        }
         for (Map.Entry<String, Integer> entry : competences.entrySet()) {
             String key = entry.getKey();
             Integer value = entry.getValue();
@@ -172,6 +191,45 @@ public class Classe {
         result.put("Description", this.description);
         return result;
     }
+
+    public void setCompetences(Map<String, Integer> competences) {
+        this.competences = competences;
+    }
+
+    public void setCompute(Boolean compute) {
+        this.compute = compute;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setStatBrute(StatistiqueBruteClasse statBrute) {
+        this.statBrute = statBrute;
+    }
+
+    public void setStatPerception(StatistiquePerception statPerception) {
+        this.statPerception = statPerception;
+    }
+    
+    
+    public void addCompetence(Competence comp){
+        competences.put(comp.getNom(), comp.getExp());
+    }
+    
+    public void addCompetence(String name, Integer exp){
+        competences.put(name, exp);
+    }
+    
+    
+    public void removeCompetence(Competence comp){
+        competences.remove(comp.getNom());
+    }
+    
 
     public void compute() {
         if (compute == false) {

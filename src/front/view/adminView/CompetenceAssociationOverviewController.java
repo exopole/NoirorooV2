@@ -5,6 +5,7 @@
  */
 package front.view.adminView;
 
+import NoirorooApp.Main;
 import informations.Classe;
 import informations.Competence;
 import informations.Race;
@@ -31,14 +32,17 @@ import parsing.ParsingFile;
  */
 public class CompetenceAssociationOverviewController implements Initializable {
 
-private String pathCompetence = "Competence/competences.json";
-    private enum ASSOCIATIONWITH{
+    Main main;
+    private String pathCompetence = "Competence/competences.json";
+    private String pathRaceFolder = "RaceJSON/";
+    private String pathClasseFolder = "ClasseJSON/";
+
+    private enum ASSOCIATIONWITH {
         classe,
         race
     };
     ASSOCIATIONWITH assoc;
-    
-    
+
     Classe classe;
     Race race;
 
@@ -50,6 +54,8 @@ private String pathCompetence = "Competence/competences.json";
     private Button remove = new Button();
     @FXML
     private Button enregistrer = new Button();
+    @FXML
+    private Button classeOrRace = new Button();
 
     @FXML
     private Label resultButton;
@@ -66,6 +72,14 @@ private String pathCompetence = "Competence/competences.json";
     private TableColumn<Competence, String> colLevelMax;
     @FXML
     private TableColumn<Competence, String> colIncantationTime;
+
+    @FXML
+    private TableView<Competence> tableCompAssoc;
+    @FXML
+    private TableColumn<Competence, String> colNomAssoc;
+    @FXML
+    private TableColumn<Competence, String> colExp;
+
     @FXML
     private TextArea nom;
     @FXML
@@ -78,8 +92,11 @@ private String pathCompetence = "Competence/competences.json";
     private TextArea incantationTime;
     @FXML
     private TextArea description;
+    @FXML
+    private TextArea experience;
 
     ObservableList<Competence> compList = FXCollections.observableArrayList();
+    ObservableList<Competence> compAssocList = FXCollections.observableArrayList();
     Competence compCurrent;
 
     /**
@@ -101,6 +118,13 @@ private String pathCompetence = "Competence/competences.json";
         colIncantationTime.setCellValueFactory(cellData -> cellData.getValue().getTempsIncantationProperty());
         tableCompetence.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> setCompDesc(newValue));
+
+        tableCompAssoc.setItems(compAssocList);
+        colNomAssoc.setCellValueFactory(cellData -> cellData.getValue().getNomProperty());
+        colExp.setCellValueFactory(cellData -> cellData.getValue().getExpProperty());
+        tableCompAssoc.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> setCompDesc(newValue));
+
     }
 
     private void setCompDesc(Competence comp) {
@@ -119,22 +143,18 @@ private String pathCompetence = "Competence/competences.json";
 
     @FXML
     private void remove() throws IOException {
-        if(compCurrent.getClasses() != null)
-            for (String classe : compCurrent.getClasses()) {
-                Classe newClasse = new Classe(classe);
-                newClasse.remoceCompetenceWithName(compCurrent.getNom());
-                ParsingFile.writeFileWithString(newClasse.getJSONObject().toJSONString(), "RaceJSON/" + classe + ".json");
+        if (compCurrent != null) {
+            
+            if (compAssocList.contains(compCurrent)) {
+                compAssocList.remove(compCurrent);
+                classe.removeCompetence(compCurrent);
+                resultButton.setText("Compétence enlever");
+            } else {
+                resultButton.setText("La compétence n'est pas dans la liste");
             }
-        if(compCurrent.getRaces() != null)
-            for (String race : compCurrent.getRaces()) {
-                Race newRace = new Race(race);
-                newRace.remoceCompetenceWithName(compCurrent.getNom());
-                ParsingFile.writeFileWithString(newRace.getJSONObject().toJSONString(), "RaceJSON/" + race + ".json");
-            }
-        
-        
-        compList.remove(compCurrent);
-        enregistrer();
+        } else {
+            resultButton.setText("Aucune compétence sélectionner");
+        }
     }
 
     @FXML
@@ -146,10 +166,10 @@ private String pathCompetence = "Competence/competences.json";
             compCurrent.setNature(nature.getText());
             compCurrent.setTempsIncantation(Integer.valueOf(incantationTime.getText()));
             compCurrent.setType(type.getText());
+            compCurrent.setExp(Integer.valueOf(experience.getText()));
+            classe.addCompetence(compCurrent);
             resultButton.setText("Compétence modifier");
-        }
-        else
-        {
+        } else {
             resultButton.setText("Aucune compétence sélectionner");
         }
 
@@ -160,15 +180,16 @@ private String pathCompetence = "Competence/competences.json";
         if (nom.getText().length() == 0) {
             resultButton.setText("Vous n'avez pas mis de nom à la compétence");
         } else if (!haveCompetence()) {
-            Competence newCompetence = new Competence();
-            newCompetence.setNom(nom.getText());
-            newCompetence.setDescription(description.getText());
-            newCompetence.setLevelMax(Integer.valueOf(levelMax.getText()));
-            newCompetence.setNature(nature.getText());
-            newCompetence.setTempsIncantation(Double.valueOf(incantationTime.getText()));
-            newCompetence.setType(type.getText());
+            Competence newCompetence = newComp();
             compList.add(newCompetence);
-            resultButton.setText("Competence ajouter");
+            compAssocList.add(newCompetence);
+            classe.addCompetence(compCurrent);
+            resultButton.setText("Competence créer et ajouter");
+        } else if (!verifComp()) {
+            modifComp();
+            compAssocList.add(compCurrent);
+            classe.addCompetence(compCurrent);
+
         } else {
             resultButton.setText("Une compétence avec le même nom existe déjà");
         }
@@ -184,13 +205,35 @@ private String pathCompetence = "Competence/competences.json";
             }
 
             ParsingFile.writeFileWithString(objWrite.toJSONString(), pathCompetence);
-
+            if (assoc == ASSOCIATIONWITH.classe) {                    
+                ParsingFile.writeFileWithString(classe.getJSONObject().toString(), pathClasseFolder + classe.getName() + ".json");
+            }
+            else
+                ParsingFile.writeFileWithString(race.getJSONObject().toString(), pathRaceFolder + race.getName() + ".json");
             resultButton.setText("Competence enregistrer");
 
         } catch (Exception e) {
             System.out.println("NoirorooApp.Main.<init>(), " + e.getMessage());
         }
 
+    }
+
+    @FXML
+    private void retour() {
+        if (assoc == ASSOCIATIONWITH.classe) {
+            main.setScene(main.getPanAdminClasse());
+        } else if (assoc == ASSOCIATIONWITH.race) {
+            main.setScene(main.getPanAdminRace());
+        }
+    }
+
+    @FXML
+    private void goToClasse() {
+        if (assoc == ASSOCIATIONWITH.classe) {
+            main.setScene(main.getPanAdminRace());
+        } else if (assoc == ASSOCIATIONWITH.race) {
+            main.setScene(main.getPanAdminClasse());
+        }
     }
 
     private boolean haveCompetence() {
@@ -213,28 +256,78 @@ private String pathCompetence = "Competence/competences.json";
     }
 
     public void setCompetenceList(Map<String, Competence> competences) {
-        for (Map.Entry<String, Competence> entry : competences.entrySet()) {
-            compList.add(entry.getValue());
+        if (competences != null) {
+            for (Map.Entry<String, Competence> entry : competences.entrySet()) {
+                compList.add(entry.getValue());
+            }
         }
+
     }
-    
-    public void setRace(Race race){
+
+    public void setCompetenceAssociateList(Map<String, Integer> competences) {
+        if (competences != null) {
+            for (Map.Entry<String, Integer> entry : competences.entrySet()) {
+                Competence newComp = main.getCompetences().get(entry.getKey());
+                newComp.setExp(entry.getValue());
+                compAssocList.add(newComp);
+            }
+        }
+
+    }
+
+    public void setRace(Race race) {
         this.race = race;
         assoc = ASSOCIATIONWITH.race;
-        
+        setCompetenceList(main.getCompetences());
+        setCompetenceAssociateList(race.getCompetences());
+        classeOrRace.setText("Classe");
+
     }
-    
-    public void setClasse(Classe classe){
+
+    public void setClasse(Classe classe) {
         this.classe = classe;
         assoc = ASSOCIATIONWITH.classe;
+        setCompetenceList(main.getCompetences());
+        setCompetenceAssociateList(classe.getCompetences());
+        classeOrRace.setText("Race");
     }
 
     public ASSOCIATIONWITH getAssoc() {
         return assoc;
     }
-    
-    
-    
-    
-   
+
+    public void modifComp() {
+        compCurrent.setNom(nom.getText());
+        compCurrent.setDescription(description.getText());
+        compCurrent.setLevelMax(Integer.valueOf(levelMax.getText()));
+        compCurrent.setNature(nature.getText());
+        compCurrent.setTempsIncantation(Double.valueOf(incantationTime.getText()));
+        compCurrent.setType(type.getText());
+
+    }
+
+    public Competence newComp() {
+        Competence newCompetence = new Competence();
+        newCompetence.setNom(nom.getText());
+        newCompetence.setDescription(description.getText());
+        newCompetence.setLevelMax(Integer.valueOf(levelMax.getText()));
+        newCompetence.setNature(nature.getText());
+        newCompetence.setTempsIncantation(Double.valueOf(incantationTime.getText()));
+        newCompetence.setType(type.getText());
+        return newCompetence;
+
+    }
+
+    public boolean verifComp() {
+        return nom.getText().equals(compCurrent.getNom())
+                && description.getText().equals(compCurrent.getDescription())
+                && Integer.valueOf(levelMax.getText()) == compCurrent.getLevelMax()
+                && nature.getText().equals(compCurrent.getNature())
+                && Double.valueOf(incantationTime.getText()) == compCurrent.getTempsIncantation()
+                && type.getText().equals(compCurrent.getType());
+    }
+
+    public void setMainApp(Main main) {
+        this.main = main;
+    }
 }

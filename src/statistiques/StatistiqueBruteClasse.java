@@ -97,6 +97,33 @@ public class StatistiqueBruteClasse {
         return dexterite;
     }
 
+    public void setDexterite(Dexterite dexterite) {
+        this.dexterite = dexterite;
+    }
+
+    public void setEsprit(Esprit esprit) {
+        this.esprit = esprit;
+    }
+
+    public void setForce(Force force) {
+        this.force = force;
+    }
+
+    public void setRapidite(Rapidite rapidite) {
+        this.rapidite = rapidite;
+    }
+
+    public void setResistance(Resistance resistance) {
+        this.resistance = resistance;
+    }
+
+    public void setVie(Vie vie) {
+        this.vie = vie;
+    }
+    
+    
+    
+
     public void compute() {
         if (compute == false) {
             dexterite.compute();

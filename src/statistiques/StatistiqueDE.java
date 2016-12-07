@@ -26,7 +26,7 @@ public abstract class StatistiqueDE extends Statistique {
 
     public StatistiqueDE(JSONObject stat) {
         // TODO Auto-generated constructor stub
-        super((Integer) stat.get("value"));        
+        super(Integer.valueOf(((Long) stat.get("value")).intValue()));        
 
         if (stat.get("de") != null) {
             this.de = new De((String) stat.get("de"));

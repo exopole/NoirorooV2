@@ -50,6 +50,11 @@ public class StatistiquePerception {
 
     private boolean compute = false;
 
+    public StatistiquePerception() {
+    }
+
+    
+    
     public StatistiquePerception(String content) {
         Vector< Vector< String>> stat = ParsingString.split2time(content, ";", ",");
         precision = new Precision(stat.get(0));
@@ -171,6 +176,39 @@ public class StatistiquePerception {
 
     }
 
+    public void setChance(Chance chance) {
+        this.chance = chance;
+    }
+
+    public void setCharisme(Charisme charisme) {
+        this.charisme = charisme;
+    }
+
+    public void setEndurance(Endurance endurance) {
+        this.endurance = endurance;
+    }
+
+    public void setEsquive(Esquive esquive) {
+        this.esquive = esquive;
+    }
+
+    public void setFurtivite(Furtivite furtivite) {
+        this.furtivite = furtivite;
+    }
+
+    public void setHabilite(Habilite habilite) {
+        this.habilite = habilite;
+    }
+
+    public void setIntelligence(Intelligence intelligence) {
+        this.intelligence = intelligence;
+    }
+
+    public void setPrecision(Precision precision) {
+        this.precision = precision;
+    }
+    
+    
     /**
      * @return value
      */

@@ -5,14 +5,14 @@
  */
 package front.view.adminView;
 
-import informations.*;
-import java.io.File;
-import java.io.FileWriter;
+import NoirorooApp.Main;
+import informations.Classe;
+import informations.Competence;
+import informations.Race;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Vector;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -30,10 +30,19 @@ import parsing.ParsingFile;
  *
  * @author exopole
  */
-public class CompetenceAdminOverviewController implements Initializable {
+public class CompetenceAssociationRaceOverviewController implements Initializable {
 
+    Main main;
     private String pathCompetence = "Competence/competences.json";
-    private String pathId = "Competence/identifiant";
+
+    private enum ASSOCIATIONWITH {
+        classe,
+        race
+    };
+    ASSOCIATIONWITH assoc;
+
+    Classe classe;
+    Race race;
 
     @FXML
     private Button ajouter = new Button();
@@ -59,6 +68,14 @@ public class CompetenceAdminOverviewController implements Initializable {
     private TableColumn<Competence, String> colLevelMax;
     @FXML
     private TableColumn<Competence, String> colIncantationTime;
+
+    @FXML
+    private TableView<Competence> tableCompAssoc;
+    @FXML
+    private TableColumn<Competence, String> colNomAssoc;
+    @FXML
+    private TableColumn<Competence, String> colExp;
+
     @FXML
     private TextArea nom;
     @FXML
@@ -71,8 +88,11 @@ public class CompetenceAdminOverviewController implements Initializable {
     private TextArea incantationTime;
     @FXML
     private TextArea description;
+    @FXML
+    private TextArea experience;
 
     ObservableList<Competence> compList = FXCollections.observableArrayList();
+    ObservableList<Competence> compAssocList = FXCollections.observableArrayList();
     Competence compCurrent;
 
     /**
@@ -94,6 +114,13 @@ public class CompetenceAdminOverviewController implements Initializable {
         colIncantationTime.setCellValueFactory(cellData -> cellData.getValue().getTempsIncantationProperty());
         tableCompetence.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> setCompDesc(newValue));
+
+        tableCompAssoc.setItems(compAssocList);
+        colNomAssoc.setCellValueFactory(cellData -> cellData.getValue().getNomProperty());
+        colExp.setCellValueFactory(cellData -> cellData.getValue().getExpProperty());
+        tableCompAssoc.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> setCompDesc(newValue));
+
     }
 
     private void setCompDesc(Competence comp) {
@@ -112,23 +139,16 @@ public class CompetenceAdminOverviewController implements Initializable {
 
     @FXML
     private void remove() throws IOException {
-        if(compCurrent.getClasses() != null)
-            
-            for (String classe : compCurrent.getClasses()) {
-                Classe newClasse = new Classe(classe);
-                newClasse.remoceCompetenceWithName(compCurrent.getNom());
-                ParsingFile.writeFileWithString(newClasse.getJSONObject().toJSONString(), "RaceJSON/" + classe + ".json");
+        if (compCurrent != null) {
+            if (compAssocList.contains(compCurrent)) {
+                compAssocList.remove(compCurrent);
+                resultButton.setText("Compétence enlever");
+            } else {
+                resultButton.setText("La compétence n'est pas dans la liste");
             }
-        if(compCurrent.getRaces() != null)
-            for (String race : compCurrent.getRaces()) {
-                Race newRace = new Race(race);
-                newRace.remoceCompetenceWithName(compCurrent.getNom());
-                ParsingFile.writeFileWithString(newRace.getJSONObject().toJSONString(), "RaceJSON/" + race + ".json");
-            }
-        
-        
-        compList.remove(compCurrent);
-        enregistrer();
+        } else {
+            resultButton.setText("Aucune compétence sélectionner");
+        }
     }
 
     @FXML
@@ -140,10 +160,9 @@ public class CompetenceAdminOverviewController implements Initializable {
             compCurrent.setNature(nature.getText());
             compCurrent.setTempsIncantation(Integer.valueOf(incantationTime.getText()));
             compCurrent.setType(type.getText());
+            compCurrent.setExp(Integer.valueOf(experience.getText()));
             resultButton.setText("Compétence modifier");
-        }
-        else
-        {
+        } else {
             resultButton.setText("Aucune compétence sélectionner");
         }
 
@@ -154,21 +173,17 @@ public class CompetenceAdminOverviewController implements Initializable {
         if (nom.getText().length() == 0) {
             resultButton.setText("Vous n'avez pas mis de nom à la compétence");
         } else if (!haveCompetence()) {
-            Competence newCompetence = new Competence();
-            newCompetence.setNom(nom.getText());
-            newCompetence.setDescription(description.getText());
-            newCompetence.setLevelMax(Integer.valueOf(levelMax.getText()));
-            newCompetence.setNature(nature.getText());
-            newCompetence.setTempsIncantation(Double.valueOf(incantationTime.getText()));
-            newCompetence.setType(type.getText());
+            Competence newCompetence = newComp();
             compList.add(newCompetence);
-            resultButton.setText("Competence ajouter");
+            compAssocList.add(newCompetence);
+            resultButton.setText("Competence créer et ajouter");
+        } else if (!verifComp()) {
+            modifComp();
+            compAssocList.add(compCurrent);
+
         } else {
             resultButton.setText("Une compétence avec le même nom existe déjà");
         }
-        
-        
-        
     }
 
     @FXML
@@ -188,6 +203,16 @@ public class CompetenceAdminOverviewController implements Initializable {
             System.out.println("NoirorooApp.Main.<init>(), " + e.getMessage());
         }
 
+    }
+
+    @FXML
+    private void retour() {
+
+    }
+
+    @FXML
+    private void goToClasse() {
+        main.setScene(main.getPanAdminCompetenceAssociationClasse());
     }
 
     private boolean haveCompetence() {
@@ -213,5 +238,68 @@ public class CompetenceAdminOverviewController implements Initializable {
         for (Map.Entry<String, Competence> entry : competences.entrySet()) {
             compList.add(entry.getValue());
         }
+    }
+
+    public void setCompetenceAssociateList(Map<String, Integer> competences) {
+        for (Map.Entry<String, Integer> entry : competences.entrySet()) {
+            Competence newComp = main.getCompetences().get(entry.getKey());
+            newComp.setExp(entry.getValue());
+            compAssocList.add(newComp);
+        }
+    }
+
+    public void setRace(Race race) {
+        this.race = race;
+        assoc = ASSOCIATIONWITH.race;
+        setCompetenceList(main.getCompetences());
+        setCompetenceAssociateList(race.getCompetences());
+
+    }
+
+    public void setClasse(Classe classe) {
+        this.classe = classe;
+        assoc = ASSOCIATIONWITH.classe;
+        setCompetenceList(main.getCompetences());
+        setCompetenceAssociateList(race.getCompetences());
+
+    }
+
+    public ASSOCIATIONWITH getAssoc() {
+        return assoc;
+    }
+
+    public void modifComp() {
+        compCurrent.setNom(nom.getText());
+        compCurrent.setDescription(description.getText());
+        compCurrent.setLevelMax(Integer.valueOf(levelMax.getText()));
+        compCurrent.setNature(nature.getText());
+        compCurrent.setTempsIncantation(Double.valueOf(incantationTime.getText()));
+        compCurrent.setType(type.getText());
+
+    }
+
+    public Competence newComp() {
+        Competence newCompetence = new Competence();
+        newCompetence.setNom(nom.getText());
+        newCompetence.setDescription(description.getText());
+        newCompetence.setLevelMax(Integer.valueOf(levelMax.getText()));
+        newCompetence.setNature(nature.getText());
+        newCompetence.setTempsIncantation(Double.valueOf(incantationTime.getText()));
+        newCompetence.setType(type.getText());
+        return newCompetence;
+
+    }
+
+    public boolean verifComp() {
+        return nom.getText().equals(compCurrent.getNom())
+                && description.getText().equals(compCurrent.getDescription())
+                && Integer.valueOf(levelMax.getText()) == compCurrent.getLevelMax()
+                && nature.getText().equals(compCurrent.getNature())
+                && Double.valueOf(incantationTime.getText()) == compCurrent.getTempsIncantation()
+                && type.getText().equals(compCurrent.getType());
+    }
+
+    public void setMainApp(Main main) {
+        this.main = main;
     }
 }

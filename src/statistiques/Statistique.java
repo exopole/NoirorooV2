@@ -22,12 +22,15 @@ public abstract class Statistique {
     
     /**
      *
+     
      * @param value
      */
     public Statistique(Integer value) {
         // TODO Auto-generated constructor stub
         this.value = value;
     }
+    
+    
 
     @Override
     public String toString() {
